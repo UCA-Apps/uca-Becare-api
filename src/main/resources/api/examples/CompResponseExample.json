@@ -1,0 +1,919 @@
+{
+	"QuotationNo": "907159300",
+	"vehicleLimitValue": 120000,
+	"QuotationDate": "2020-09-16T09:48:59.55629+03:00",
+	"QuotationExpiryDate": "2020-09-17T09:48:59.5562909+03:00",
+	"Products": [{
+		"ProductId": "VA0",
+		"ProductNameAr": "",
+		"ProductNameEn": "Motor Perfect",
+		"ProductDescAr": "",
+		"ProductDescEn": "",
+		"ProductPrice": 6318.42,
+		"DeductibleValue": 1500,
+		"PriceDetails": [{
+			"PriceTypeCode": 8,
+			"PriceValue": 824.14,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 7,
+			"PriceValue": 6463.86,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 4,
+			"PriceValue": 0.0,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 2,
+			"PriceValue": 969.58,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 1,
+			"PriceValue": 0.0,
+			"PercentageValue": 0.0
+		}],
+		"Benefits": [{
+			"BenefitCode": 0,
+			"BenefitId": "13",
+			"BenefitNameAr": "الإصابة الجسدية للغير",
+			"BenefitNameEn": "Third Party Bodily Injury",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for your legal liability in the event that you have to pay compensation for any bodily injury to or death of a third party, following an accident.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "14",
+			"BenefitNameAr": "تلف ممتلكات الغير",
+			"BenefitNameEn": "Third Party Property Damage",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for your legal liability in the event that you have to pay compensation for damage to materials and property, following an accident.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "10",
+			"BenefitNameAr": "خسارة أو تلف مركبتك",
+			"BenefitNameEn": "Loss of or Damage to Your Vehicle",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for the accidental loss of or damage to the insured vehicle due to an insured peril.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "11",
+			"BenefitNameAr": "تغطية مجانية للتكاليف الطبية الطارئة لحد 5000 ريال لكل شخص",
+			"BenefitNameEn": "Free Emergency medical expenses up to SAR 5000 per person",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for a limited amount of medical treatment incurred as a direct result of an accident when using the insured vehicle.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 3,
+			"BenefitId": "3",
+			"BenefitNameAr": "المخاطر الطبيعية (العواصف / الفيضانات)",
+			"BenefitNameEn": "Natural Calamities (Storm/Flood)",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Your policy cover extends to include accidental loss of or damage to the vehicle caused by natural perils such as storm and flood.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "12",
+			"BenefitNameAr": "تغطية مجانية للمتعلقات الشخصية لحد 3000 ريال لكل حادثة",
+			"BenefitNameEn": "Free Personal belongings extension up to SAR 3000 for any one accident",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for the value of loss or damage caused to your personal belongings whilst in the insured vehicle.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "20",
+			"BenefitNameAr": "تثبيت سعر المركبة مجانا لأول سنة للسيارات الجديدة",
+			"BenefitNameEn": "Free waiver of depreciation for the brand new cars",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free waiver of depreciation for the brand new cars",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "15",
+			"BenefitNameAr": "تغطية مجانية لضياع مفتاح المركبة أو السرقة الى حد 2500 ريال",
+			"BenefitNameEn": "Free Replacement of keys and locks if lost or stolen up to SAR 2500",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Replacement of keys and locks if lost or stolen up to SAR 2500",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "16",
+			"BenefitNameAr": "تغطية مجانية للزجاج لحد 5000 ريال",
+			"BenefitNameEn": "Free Windscreen cover up to SAR 5000",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Windscreen cover up to SAR 5000",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "18",
+			"BenefitNameAr": "تغطية مجانية في مملكة البحرين للضرر المتكبد لسيارتك",
+			"BenefitNameEn": "Free Bahrain extension – own damage only",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Bahrain extension – own damage only",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "7",
+			"BenefitNameAr": "اصلاح وكالة مجانا لأول سنة للمركبات الجديدة",
+			"BenefitNameEn": "Free Agency Repairs for brand new cars",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Repair of accidental damage of the insured vehicle at the manufacturer's authorized dealers.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "19",
+			"BenefitNameAr": "تغطية دول مجلس التعاون الخليجي",
+			"BenefitNameEn": "GCC Cover",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Under this cover, the loss of or damage to your vehicle is extended to all GCC countries. This does not include third party liability cover, which must be purchased separately at the border.",
+			"BenefitPrice": 400.0
+		}, {
+			"BenefitCode": 1,
+			"BenefitId": "1",
+			"BenefitNameAr": "تغطية الحوادث الشخصية للسائق",
+			"BenefitNameEn": "Personal Accident Cover for Driver",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Compensation to the driver of the vehicle in the event of death or serious bodily injury sustained whilst using the vehicle.",
+			"BenefitPrice": 50.0
+		}, {
+			"BenefitCode": 8,
+			"BenefitId": "8",
+			"BenefitNameAr": "تغطية الحوادث الشخصية للركاب",
+			"BenefitNameEn": "Personal Accident Cover for Passengers",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Compensation to the passengers in the vehicle in the event of death or serious bodily injury sustained whilst using the vehicle.",
+			"BenefitPrice": 160.0
+		}, {
+			"BenefitCode": 6,
+			"BenefitId": "6",
+			"BenefitNameAr": "استئجار سيارة",
+			"BenefitNameEn": "Hire Car Benefit Extension",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Hire Car facility at the time of a covered accident.",
+			"BenefitPrice": 200.0
+		}, {
+			"BenefitCode": 5,
+			"BenefitId": "5",
+			"BenefitNameAr": "المساعدة على الطريق",
+			"BenefitNameEn": "Accident and Breakdown Rescue",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Extensive breakdown and accident recovery 365 days a year, 7 days a week to your vehicle and any private vehicle in which you are travelling.",
+			"BenefitPrice": 50.0
+		}, {
+			"BenefitCode": 7,
+			"BenefitId": "7",
+			"BenefitNameAr": "إصلاحات الوكيل",
+			"BenefitNameEn": "Agency Repairs",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Repair of accidental damage of the insured vehicle at the manufacturer's authorized dealers.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "22",
+			"BenefitNameAr": "تغطية السائقين الأقل من 21 سنة",
+			"BenefitNameEn": "Cover for Drivers below 21 Years",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for Drivers below 21 Years",
+			"BenefitPrice": 5494.28
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "21",
+			"BenefitNameAr": "تثبيت السعر",
+			"BenefitNameEn": "Waiver of Depreciation",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Waiver of Depreciation",
+			"BenefitPrice": 0.0
+		}]
+	}, {
+		"ProductId": "VA500",
+		"ProductNameAr": "",
+		"ProductNameEn": "Motor Perfect",
+		"ProductDescAr": "",
+		"ProductDescEn": "",
+		"ProductPrice": 6002.51,
+		"DeductibleValue": 2000,
+		"PriceDetails": [{
+			"PriceTypeCode": 8,
+			"PriceValue": 782.94,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 7,
+			"PriceValue": 6463.86,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 4,
+			"PriceValue": 0.0,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 2,
+			"PriceValue": 969.58,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 1,
+			"PriceValue": 274.71,
+			"PercentageValue": 0.0
+		}],
+		"Benefits": [{
+			"BenefitCode": 0,
+			"BenefitId": "13",
+			"BenefitNameAr": "الإصابة الجسدية للغير",
+			"BenefitNameEn": "Third Party Bodily Injury",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for your legal liability in the event that you have to pay compensation for any bodily injury to or death of a third party, following an accident.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "14",
+			"BenefitNameAr": "تلف ممتلكات الغير",
+			"BenefitNameEn": "Third Party Property Damage",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for your legal liability in the event that you have to pay compensation for damage to materials and property, following an accident.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "10",
+			"BenefitNameAr": "خسارة أو تلف مركبتك",
+			"BenefitNameEn": "Loss of or Damage to Your Vehicle",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for the accidental loss of or damage to the insured vehicle due to an insured peril.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "11",
+			"BenefitNameAr": "تغطية مجانية للتكاليف الطبية الطارئة لحد 5000 ريال لكل شخص",
+			"BenefitNameEn": "Free Emergency medical expenses up to SAR 5000 per person",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for a limited amount of medical treatment incurred as a direct result of an accident when using the insured vehicle.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 3,
+			"BenefitId": "3",
+			"BenefitNameAr": "المخاطر الطبيعية (العواصف / الفيضانات)",
+			"BenefitNameEn": "Natural Calamities (Storm/Flood)",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Your policy cover extends to include accidental loss of or damage to the vehicle caused by natural perils such as storm and flood.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "12",
+			"BenefitNameAr": "تغطية مجانية للمتعلقات الشخصية لحد 3000 ريال لكل حادثة",
+			"BenefitNameEn": "Free Personal belongings extension up to SAR 3000 for any one accident",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for the value of loss or damage caused to your personal belongings whilst in the insured vehicle.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "20",
+			"BenefitNameAr": "تثبيت سعر المركبة مجانا لأول سنة للسيارات الجديدة",
+			"BenefitNameEn": "Free waiver of depreciation for the brand new cars",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free waiver of depreciation for the brand new cars",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "15",
+			"BenefitNameAr": "تغطية مجانية لضياع مفتاح المركبة أو السرقة الى حد 2500 ريال",
+			"BenefitNameEn": "Free Replacement of keys and locks if lost or stolen up to SAR 2500",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Replacement of keys and locks if lost or stolen up to SAR 2500",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "16",
+			"BenefitNameAr": "تغطية مجانية للزجاج لحد 5000 ريال",
+			"BenefitNameEn": "Free Windscreen cover up to SAR 5000",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Windscreen cover up to SAR 5000",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "18",
+			"BenefitNameAr": "تغطية مجانية في مملكة البحرين للضرر المتكبد لسيارتك",
+			"BenefitNameEn": "Free Bahrain extension – own damage only",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Bahrain extension – own damage only",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "7",
+			"BenefitNameAr": "اصلاح وكالة مجانا لأول سنة للمركبات الجديدة",
+			"BenefitNameEn": "Free Agency Repairs for brand new cars",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Repair of accidental damage of the insured vehicle at the manufacturer's authorized dealers.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "19",
+			"BenefitNameAr": "تغطية دول مجلس التعاون الخليجي",
+			"BenefitNameEn": "GCC Cover",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Under this cover, the loss of or damage to your vehicle is extended to all GCC countries. This does not include third party liability cover, which must be purchased separately at the border.",
+			"BenefitPrice": 400.0
+		}, {
+			"BenefitCode": 1,
+			"BenefitId": "1",
+			"BenefitNameAr": "تغطية الحوادث الشخصية للسائق",
+			"BenefitNameEn": "Personal Accident Cover for Driver",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Compensation to the driver of the vehicle in the event of death or serious bodily injury sustained whilst using the vehicle.",
+			"BenefitPrice": 50.0
+		}, {
+			"BenefitCode": 8,
+			"BenefitId": "8",
+			"BenefitNameAr": "تغطية الحوادث الشخصية للركاب",
+			"BenefitNameEn": "Personal Accident Cover for Passengers",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Compensation to the passengers in the vehicle in the event of death or serious bodily injury sustained whilst using the vehicle.",
+			"BenefitPrice": 160.0
+		}, {
+			"BenefitCode": 6,
+			"BenefitId": "6",
+			"BenefitNameAr": "استئجار سيارة",
+			"BenefitNameEn": "Hire Car Benefit Extension",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Hire Car facility at the time of a covered accident.",
+			"BenefitPrice": 200.0
+		}, {
+			"BenefitCode": 5,
+			"BenefitId": "5",
+			"BenefitNameAr": "المساعدة على الطريق",
+			"BenefitNameEn": "Accident and Breakdown Rescue",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Extensive breakdown and accident recovery 365 days a year, 7 days a week to your vehicle and any private vehicle in which you are travelling.",
+			"BenefitPrice": 50.0
+		}, {
+			"BenefitCode": 7,
+			"BenefitId": "7",
+			"BenefitNameAr": "إصلاحات الوكيل",
+			"BenefitNameEn": "Agency Repairs",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Repair of accidental damage of the insured vehicle at the manufacturer's authorized dealers.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "22",
+			"BenefitNameAr": "تغطية السائقين الأقل من 21 سنة",
+			"BenefitNameEn": "Cover for Drivers below 21 Years",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for Drivers below 21 Years",
+			"BenefitPrice": 5219.57
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "21",
+			"BenefitNameAr": "تثبيت السعر",
+			"BenefitNameEn": "Waiver of Depreciation",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Waiver of Depreciation",
+			"BenefitPrice": 0.0
+		}]
+	}, {
+		"ProductId": "VA1000",
+		"ProductNameAr": "",
+		"ProductNameEn": "Motor Perfect",
+		"ProductDescAr": "",
+		"ProductDescEn": "",
+		"ProductPrice": 5686.58,
+		"DeductibleValue": 2500,
+		"PriceDetails": [{
+			"PriceTypeCode": 8,
+			"PriceValue": 741.73,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 7,
+			"PriceValue": 6463.86,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 4,
+			"PriceValue": 0.0,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 2,
+			"PriceValue": 969.58,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 1,
+			"PriceValue": 549.43,
+			"PercentageValue": 0.0
+		}],
+		"Benefits": [{
+			"BenefitCode": 0,
+			"BenefitId": "13",
+			"BenefitNameAr": "الإصابة الجسدية للغير",
+			"BenefitNameEn": "Third Party Bodily Injury",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for your legal liability in the event that you have to pay compensation for any bodily injury to or death of a third party, following an accident.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "14",
+			"BenefitNameAr": "تلف ممتلكات الغير",
+			"BenefitNameEn": "Third Party Property Damage",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for your legal liability in the event that you have to pay compensation for damage to materials and property, following an accident.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "10",
+			"BenefitNameAr": "خسارة أو تلف مركبتك",
+			"BenefitNameEn": "Loss of or Damage to Your Vehicle",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for the accidental loss of or damage to the insured vehicle due to an insured peril.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "11",
+			"BenefitNameAr": "تغطية مجانية للتكاليف الطبية الطارئة لحد 5000 ريال لكل شخص",
+			"BenefitNameEn": "Free Emergency medical expenses up to SAR 5000 per person",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for a limited amount of medical treatment incurred as a direct result of an accident when using the insured vehicle.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 3,
+			"BenefitId": "3",
+			"BenefitNameAr": "المخاطر الطبيعية (العواصف / الفيضانات)",
+			"BenefitNameEn": "Natural Calamities (Storm/Flood)",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Your policy cover extends to include accidental loss of or damage to the vehicle caused by natural perils such as storm and flood.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "12",
+			"BenefitNameAr": "تغطية مجانية للمتعلقات الشخصية لحد 3000 ريال لكل حادثة",
+			"BenefitNameEn": "Free Personal belongings extension up to SAR 3000 for any one accident",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for the value of loss or damage caused to your personal belongings whilst in the insured vehicle.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "20",
+			"BenefitNameAr": "تثبيت سعر المركبة مجانا لأول سنة للسيارات الجديدة",
+			"BenefitNameEn": "Free waiver of depreciation for the brand new cars",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free waiver of depreciation for the brand new cars",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "15",
+			"BenefitNameAr": "تغطية مجانية لضياع مفتاح المركبة أو السرقة الى حد 2500 ريال",
+			"BenefitNameEn": "Free Replacement of keys and locks if lost or stolen up to SAR 2500",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Replacement of keys and locks if lost or stolen up to SAR 2500",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "16",
+			"BenefitNameAr": "تغطية مجانية للزجاج لحد 5000 ريال",
+			"BenefitNameEn": "Free Windscreen cover up to SAR 5000",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Windscreen cover up to SAR 5000",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "18",
+			"BenefitNameAr": "تغطية مجانية في مملكة البحرين للضرر المتكبد لسيارتك",
+			"BenefitNameEn": "Free Bahrain extension – own damage only",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Bahrain extension – own damage only",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "7",
+			"BenefitNameAr": "اصلاح وكالة مجانا لأول سنة للمركبات الجديدة",
+			"BenefitNameEn": "Free Agency Repairs for brand new cars",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Repair of accidental damage of the insured vehicle at the manufacturer's authorized dealers.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "19",
+			"BenefitNameAr": "تغطية دول مجلس التعاون الخليجي",
+			"BenefitNameEn": "GCC Cover",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Under this cover, the loss of or damage to your vehicle is extended to all GCC countries. This does not include third party liability cover, which must be purchased separately at the border.",
+			"BenefitPrice": 400.0
+		}, {
+			"BenefitCode": 1,
+			"BenefitId": "1",
+			"BenefitNameAr": "تغطية الحوادث الشخصية للسائق",
+			"BenefitNameEn": "Personal Accident Cover for Driver",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Compensation to the driver of the vehicle in the event of death or serious bodily injury sustained whilst using the vehicle.",
+			"BenefitPrice": 50.0
+		}, {
+			"BenefitCode": 8,
+			"BenefitId": "8",
+			"BenefitNameAr": "تغطية الحوادث الشخصية للركاب",
+			"BenefitNameEn": "Personal Accident Cover for Passengers",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Compensation to the passengers in the vehicle in the event of death or serious bodily injury sustained whilst using the vehicle.",
+			"BenefitPrice": 160.0
+		}, {
+			"BenefitCode": 6,
+			"BenefitId": "6",
+			"BenefitNameAr": "استئجار سيارة",
+			"BenefitNameEn": "Hire Car Benefit Extension",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Hire Car facility at the time of a covered accident.",
+			"BenefitPrice": 200.0
+		}, {
+			"BenefitCode": 5,
+			"BenefitId": "5",
+			"BenefitNameAr": "المساعدة على الطريق",
+			"BenefitNameEn": "Accident and Breakdown Rescue",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Extensive breakdown and accident recovery 365 days a year, 7 days a week to your vehicle and any private vehicle in which you are travelling.",
+			"BenefitPrice": 50.0
+		}, {
+			"BenefitCode": 7,
+			"BenefitId": "7",
+			"BenefitNameAr": "إصلاحات الوكيل",
+			"BenefitNameEn": "Agency Repairs",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Repair of accidental damage of the insured vehicle at the manufacturer's authorized dealers.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "22",
+			"BenefitNameAr": "تغطية السائقين الأقل من 21 سنة",
+			"BenefitNameEn": "Cover for Drivers below 21 Years",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for Drivers below 21 Years",
+			"BenefitPrice": 4944.85
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "21",
+			"BenefitNameAr": "تثبيت السعر",
+			"BenefitNameEn": "Waiver of Depreciation",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Waiver of Depreciation",
+			"BenefitPrice": 0.0
+		}]
+	}, {
+		"ProductId": "VA1500",
+		"ProductNameAr": "",
+		"ProductNameEn": "Motor Perfect",
+		"ProductDescAr": "",
+		"ProductDescEn": "",
+		"ProductPrice": 5370.66,
+		"DeductibleValue": 3000,
+		"PriceDetails": [{
+			"PriceTypeCode": 8,
+			"PriceValue": 700.52,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 7,
+			"PriceValue": 6463.86,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 4,
+			"PriceValue": 0.0,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 2,
+			"PriceValue": 969.58,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 1,
+			"PriceValue": 824.14,
+			"PercentageValue": 0.0
+		}],
+		"Benefits": [{
+			"BenefitCode": 0,
+			"BenefitId": "13",
+			"BenefitNameAr": "الإصابة الجسدية للغير",
+			"BenefitNameEn": "Third Party Bodily Injury",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for your legal liability in the event that you have to pay compensation for any bodily injury to or death of a third party, following an accident.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "14",
+			"BenefitNameAr": "تلف ممتلكات الغير",
+			"BenefitNameEn": "Third Party Property Damage",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for your legal liability in the event that you have to pay compensation for damage to materials and property, following an accident.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "10",
+			"BenefitNameAr": "خسارة أو تلف مركبتك",
+			"BenefitNameEn": "Loss of or Damage to Your Vehicle",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for the accidental loss of or damage to the insured vehicle due to an insured peril.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "11",
+			"BenefitNameAr": "تغطية مجانية للتكاليف الطبية الطارئة لحد 5000 ريال لكل شخص",
+			"BenefitNameEn": "Free Emergency medical expenses up to SAR 5000 per person",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for a limited amount of medical treatment incurred as a direct result of an accident when using the insured vehicle.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 3,
+			"BenefitId": "3",
+			"BenefitNameAr": "المخاطر الطبيعية (العواصف / الفيضانات)",
+			"BenefitNameEn": "Natural Calamities (Storm/Flood)",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Your policy cover extends to include accidental loss of or damage to the vehicle caused by natural perils such as storm and flood.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "12",
+			"BenefitNameAr": "تغطية مجانية للمتعلقات الشخصية لحد 3000 ريال لكل حادثة",
+			"BenefitNameEn": "Free Personal belongings extension up to SAR 3000 for any one accident",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for the value of loss or damage caused to your personal belongings whilst in the insured vehicle.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "20",
+			"BenefitNameAr": "تثبيت سعر المركبة مجانا لأول سنة للسيارات الجديدة",
+			"BenefitNameEn": "Free waiver of depreciation for the brand new cars",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free waiver of depreciation for the brand new cars",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "15",
+			"BenefitNameAr": "تغطية مجانية لضياع مفتاح المركبة أو السرقة الى حد 2500 ريال",
+			"BenefitNameEn": "Free Replacement of keys and locks if lost or stolen up to SAR 2500",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Replacement of keys and locks if lost or stolen up to SAR 2500",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "16",
+			"BenefitNameAr": "تغطية مجانية للزجاج لحد 5000 ريال",
+			"BenefitNameEn": "Free Windscreen cover up to SAR 5000",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Windscreen cover up to SAR 5000",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "18",
+			"BenefitNameAr": "تغطية مجانية في مملكة البحرين للضرر المتكبد لسيارتك",
+			"BenefitNameEn": "Free Bahrain extension – own damage only",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Bahrain extension – own damage only",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "7",
+			"BenefitNameAr": "اصلاح وكالة مجانا لأول سنة للمركبات الجديدة",
+			"BenefitNameEn": "Free Agency Repairs for brand new cars",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Repair of accidental damage of the insured vehicle at the manufacturer's authorized dealers.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "19",
+			"BenefitNameAr": "تغطية دول مجلس التعاون الخليجي",
+			"BenefitNameEn": "GCC Cover",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Under this cover, the loss of or damage to your vehicle is extended to all GCC countries. This does not include third party liability cover, which must be purchased separately at the border.",
+			"BenefitPrice": 400.0
+		}, {
+			"BenefitCode": 1,
+			"BenefitId": "1",
+			"BenefitNameAr": "تغطية الحوادث الشخصية للسائق",
+			"BenefitNameEn": "Personal Accident Cover for Driver",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Compensation to the driver of the vehicle in the event of death or serious bodily injury sustained whilst using the vehicle.",
+			"BenefitPrice": 50.0
+		}, {
+			"BenefitCode": 8,
+			"BenefitId": "8",
+			"BenefitNameAr": "تغطية الحوادث الشخصية للركاب",
+			"BenefitNameEn": "Personal Accident Cover for Passengers",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Compensation to the passengers in the vehicle in the event of death or serious bodily injury sustained whilst using the vehicle.",
+			"BenefitPrice": 160.0
+		}, {
+			"BenefitCode": 6,
+			"BenefitId": "6",
+			"BenefitNameAr": "استئجار سيارة",
+			"BenefitNameEn": "Hire Car Benefit Extension",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Hire Car facility at the time of a covered accident.",
+			"BenefitPrice": 200.0
+		}, {
+			"BenefitCode": 5,
+			"BenefitId": "5",
+			"BenefitNameAr": "المساعدة على الطريق",
+			"BenefitNameEn": "Accident and Breakdown Rescue",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Extensive breakdown and accident recovery 365 days a year, 7 days a week to your vehicle and any private vehicle in which you are travelling.",
+			"BenefitPrice": 50.0
+		}, {
+			"BenefitCode": 7,
+			"BenefitId": "7",
+			"BenefitNameAr": "إصلاحات الوكيل",
+			"BenefitNameEn": "Agency Repairs",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Repair of accidental damage of the insured vehicle at the manufacturer's authorized dealers.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "22",
+			"BenefitNameAr": "تغطية السائقين الأقل من 21 سنة",
+			"BenefitNameEn": "Cover for Drivers below 21 Years",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for Drivers below 21 Years",
+			"BenefitPrice": 4670.14
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "21",
+			"BenefitNameAr": "تثبيت السعر",
+			"BenefitNameEn": "Waiver of Depreciation",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Waiver of Depreciation",
+			"BenefitPrice": 0.0
+		}]
+	}, {
+		"ProductId": "VA2000",
+		"ProductNameAr": "",
+		"ProductNameEn": "Motor Perfect",
+		"ProductDescAr": "",
+		"ProductDescEn": "",
+		"ProductPrice": 5054.73,
+		"DeductibleValue": 3500,
+		"PriceDetails": [{
+			"PriceTypeCode": 8,
+			"PriceValue": 659.31,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 7,
+			"PriceValue": 6463.86,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 4,
+			"PriceValue": 0.0,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 2,
+			"PriceValue": 969.58,
+			"PercentageValue": 0.0
+		}, {
+			"PriceTypeCode": 1,
+			"PriceValue": 1098.86,
+			"PercentageValue": 0.0
+		}],
+		"Benefits": [{
+			"BenefitCode": 0,
+			"BenefitId": "13",
+			"BenefitNameAr": "الإصابة الجسدية للغير",
+			"BenefitNameEn": "Third Party Bodily Injury",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for your legal liability in the event that you have to pay compensation for any bodily injury to or death of a third party, following an accident.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "14",
+			"BenefitNameAr": "تلف ممتلكات الغير",
+			"BenefitNameEn": "Third Party Property Damage",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for your legal liability in the event that you have to pay compensation for damage to materials and property, following an accident.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "10",
+			"BenefitNameAr": "خسارة أو تلف مركبتك",
+			"BenefitNameEn": "Loss of or Damage to Your Vehicle",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for the accidental loss of or damage to the insured vehicle due to an insured peril.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "11",
+			"BenefitNameAr": "تغطية مجانية للتكاليف الطبية الطارئة لحد 5000 ريال لكل شخص",
+			"BenefitNameEn": "Free Emergency medical expenses up to SAR 5000 per person",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for a limited amount of medical treatment incurred as a direct result of an accident when using the insured vehicle.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 3,
+			"BenefitId": "3",
+			"BenefitNameAr": "المخاطر الطبيعية (العواصف / الفيضانات)",
+			"BenefitNameEn": "Natural Calamities (Storm/Flood)",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Your policy cover extends to include accidental loss of or damage to the vehicle caused by natural perils such as storm and flood.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "12",
+			"BenefitNameAr": "تغطية مجانية للمتعلقات الشخصية لحد 3000 ريال لكل حادثة",
+			"BenefitNameEn": "Free Personal belongings extension up to SAR 3000 for any one accident",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for the value of loss or damage caused to your personal belongings whilst in the insured vehicle.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "20",
+			"BenefitNameAr": "تثبيت سعر المركبة مجانا لأول سنة للسيارات الجديدة",
+			"BenefitNameEn": "Free waiver of depreciation for the brand new cars",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free waiver of depreciation for the brand new cars",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "15",
+			"BenefitNameAr": "تغطية مجانية لضياع مفتاح المركبة أو السرقة الى حد 2500 ريال",
+			"BenefitNameEn": "Free Replacement of keys and locks if lost or stolen up to SAR 2500",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Replacement of keys and locks if lost or stolen up to SAR 2500",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "16",
+			"BenefitNameAr": "تغطية مجانية للزجاج لحد 5000 ريال",
+			"BenefitNameEn": "Free Windscreen cover up to SAR 5000",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Windscreen cover up to SAR 5000",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "18",
+			"BenefitNameAr": "تغطية مجانية في مملكة البحرين للضرر المتكبد لسيارتك",
+			"BenefitNameEn": "Free Bahrain extension – own damage only",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Free Bahrain extension – own damage only",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "7",
+			"BenefitNameAr": "اصلاح وكالة مجانا لأول سنة للمركبات الجديدة",
+			"BenefitNameEn": "Free Agency Repairs for brand new cars",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Repair of accidental damage of the insured vehicle at the manufacturer's authorized dealers.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "19",
+			"BenefitNameAr": "تغطية دول مجلس التعاون الخليجي",
+			"BenefitNameEn": "GCC Cover",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Under this cover, the loss of or damage to your vehicle is extended to all GCC countries. This does not include third party liability cover, which must be purchased separately at the border.",
+			"BenefitPrice": 400.0
+		}, {
+			"BenefitCode": 1,
+			"BenefitId": "1",
+			"BenefitNameAr": "تغطية الحوادث الشخصية للسائق",
+			"BenefitNameEn": "Personal Accident Cover for Driver",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Compensation to the driver of the vehicle in the event of death or serious bodily injury sustained whilst using the vehicle.",
+			"BenefitPrice": 50.0
+		}, {
+			"BenefitCode": 8,
+			"BenefitId": "8",
+			"BenefitNameAr": "تغطية الحوادث الشخصية للركاب",
+			"BenefitNameEn": "Personal Accident Cover for Passengers",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Compensation to the passengers in the vehicle in the event of death or serious bodily injury sustained whilst using the vehicle.",
+			"BenefitPrice": 160.0
+		}, {
+			"BenefitCode": 6,
+			"BenefitId": "6",
+			"BenefitNameAr": "استئجار سيارة",
+			"BenefitNameEn": "Hire Car Benefit Extension",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Hire Car facility at the time of a covered accident.",
+			"BenefitPrice": 200.0
+		}, {
+			"BenefitCode": 5,
+			"BenefitId": "5",
+			"BenefitNameAr": "المساعدة على الطريق",
+			"BenefitNameEn": "Accident and Breakdown Rescue",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Extensive breakdown and accident recovery 365 days a year, 7 days a week to your vehicle and any private vehicle in which you are travelling.",
+			"BenefitPrice": 50.0
+		}, {
+			"BenefitCode": 7,
+			"BenefitId": "7",
+			"BenefitNameAr": "إصلاحات الوكيل",
+			"BenefitNameEn": "Agency Repairs",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Repair of accidental damage of the insured vehicle at the manufacturer's authorized dealers.",
+			"BenefitPrice": 0.0
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "22",
+			"BenefitNameAr": "تغطية السائقين الأقل من 21 سنة",
+			"BenefitNameEn": "Cover for Drivers below 21 Years",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Cover for Drivers below 21 Years",
+			"BenefitPrice": 4395.42
+		}, {
+			"BenefitCode": 0,
+			"BenefitId": "21",
+			"BenefitNameAr": "تثبيت السعر",
+			"BenefitNameEn": "Waiver of Depreciation",
+			"BenefitDescAr": "",
+			"BenefitDescEn": "Waiver of Depreciation",
+			"BenefitPrice": 0.0
+		}]
+	}],
+	"StatusCode": 1,
+	"ReferenceId": "aa6ab9009090462"
+}

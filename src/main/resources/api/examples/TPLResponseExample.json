@@ -1,0 +1,40 @@
+{
+	"ReferenceId": "2429d1111111111",
+	"QuotationNo": "3285903",
+	"QuotationDate": "28/07/2020 00:00:00",
+	"QuotationExpiryDate": "30/07/2020 00:00:00",
+	"Products": [{
+		"ProductPrice": 470.32,
+		"PriceDetails": [{
+			"PriceTypeCode": 1,
+			"PriceValue": 58.43,
+			"PercentageValue": 10
+		}, {
+			"PriceTypeCode": 2,
+			"PriceValue": 116.85,
+			"PercentageValue": 30
+		}, {
+			"PriceTypeCode": 4,
+			"PriceValue": 0,
+			"PercentageValue": 0
+		}, {
+			"PriceTypeCode": 5,
+			"PriceValue": 0,
+			"PercentageValue": 0
+		}, {
+			"PriceTypeCode": 6,
+			"PriceValue": 0,
+			"PercentageValue": 0
+		}, {
+			"PriceTypeCode": 7,
+			"PriceValue": 584.25,
+			"PercentageValue": 124.22
+		}, {
+			"PriceTypeCode": 8,
+			"PriceValue": 61.35,
+			"PercentageValue": 15
+		}],
+		"Benefits": []
+	}],
+	"StatusCode": 1
+}

@@ -1,0 +1,10 @@
+
+muleApp:
+  environment: "dr"
+  apiAutoDiscoveryId: ""
+  
+
+json:
+  logger.application.name : "uca-tameenk-api"
+  logger.application.version : "1.0"
+  maskFields: "password"

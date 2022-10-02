@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <flow name="uca-tameenk-api-main">
+        <http:listener path="/tameenk/v1/api/*" config-ref="uca-domain-httpListenerConfig">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <set-variable value="#[attributes.headers.&quot;x-transaction-id&quot; default correlationId]" doc:name="set transaction ID" doc:id="ae2b0522-1373-4f9e-ad04-0f39a9c699cc" variableName="transactionId" />
+		<apikit:router config-ref="uca-tameenk-api-config" />
+    </flow>
+    <flow name="post:\Quotation:application\json:uca-tameenk-api-config">
+        <ee:transform doc:name="Transform Message" doc:id="d819194b-e4a8-4d17-b09e-760860efab00">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="monthDate"><![CDATA[%dw 2.0
+output application/java
+---
+{
+	month :now() as String {format: "MMMM"},
+	day: now() as String {format: "dd"}
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="2bcfaeed-5568-4c12-816c-5415a4354166">
+            <ee:message />
+            <ee:variables>
+                <ee:set-variable variableName="setRequest"><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<flow-ref doc:name="Quotes Comp Flow" doc:id="40f0a2fc-55f4-4e03-88e3-ba8803823b55" name="quotesCompFlow" />
+		<async doc:name="Async" doc:id="2c8c4bbe-a048-4fb8-9509-fff277961760">
+            <flow-ref doc:name="Flow Reference" doc:id="3bf37fd5-d6c2-4e77-9336-425ec2fa0809" name="common-logicSub_Flow1" />
+        </async>
+		<async doc:name="Async" doc:id="bb56e03c-87a9-4600-bba6-97883ccc5fe4" >
+			<flow-ref doc:name="mongoDb flow" doc:id="0f8f8209-48f9-497c-b777-4ba3449950e8" name="Copy_of_common-logicSub_Flow1"/>
+		</async>
+    </flow>
+    <flow name="post:\Quotation\TPL:application\json:uca-tameenk-api-config">
+		<logger level="INFO" doc:name="Logger" doc:id="1b5b737b-ba2f-42f8-aa2a-981117dcd657" />
+    </flow>
+    <flow name="post:\Policy\TPL:application\json:uca-tameenk-api-config" doc:id="c1eafa99-5b11-45b2-9fd7-f07406f3f23a">
+		<logger level="INFO" doc:name="Logger" doc:id="7b88cb4b-cf78-48b5-8668-b7eb8b0f518f" />
+    </flow>
+    <flow name="post:\Policy\Comprehensive:application\json:uca-tameenk-api-config" doc:id="c757c749-1324-4abd-aa74-4ca52221f7ea">
+		<logger level="INFO" doc:name="Logger" doc:id="536f1cc7-b5b9-47af-82ab-273ca7f14ed5" />
+    </flow>
+    <flow name="post:\PolicySchedule:application\json:uca-tameenk-api-config" doc:id="a50f8bb2-62df-46eb-8330-57f868c6493e">
+		<logger level="INFO" doc:name="Logger" doc:id="894a87bf-5f43-460c-ac27-26cb625f2835" />
+    </flow>
+    <flow name="post:\TPL:application\json:uca-tameenk-api-config">
+        <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  ReferenceId: "2429d1111111111",
+  QuotationNo: "3285903",
+  QuotationDate: "28/07/2020 00:00:00",
+  QuotationExpiryDate: "30/07/2020 00:00:00",
+  Products: [
+    {
+      ProductPrice: 470.32,
+      PriceDetails: [
+        {
+          PriceTypeCode: 1,
+          PriceValue: 58.43,
+          PercentageValue: 10
+        }, 
+        {
+          PriceTypeCode: 2,
+          PriceValue: 116.85,
+          PercentageValue: 30
+        }, 
+        {
+          PriceTypeCode: 4,
+          PriceValue: 0,
+          PercentageValue: 0
+        }, 
+        {
+          PriceTypeCode: 5,
+          PriceValue: 0,
+          PercentageValue: 0
+        }, 
+        {
+          PriceTypeCode: 6,
+          PriceValue: 0,
+          PercentageValue: 0
+        }, 
+        {
+          PriceTypeCode: 7,
+          PriceValue: 584.25,
+          PercentageValue: 124.22
+        }, 
+        {
+          PriceTypeCode: 8,
+          PriceValue: 61.35,
+          PercentageValue: 15
+        }
+      ],
+      Benefits: []
+    }
+  ],
+  StatusCode: 1
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\getQuotation\(quoteNo):uca-tameenk-api-config">
+    <set-variable value='#[attributes.headers."type" default correlationId]' doc:name="Set Variable" doc:id="42b93fda-043c-4019-93da-0d15abf3564f" variableName="muleType"/>
+		
+        <ee:transform>
+            <ee:variables>
+                <ee:set-variable variableName="quoteNo"><![CDATA[attributes.uriParams.'quoteNo']]></ee:set-variable>
+				<ee:set-variable variableName="preDate" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	month :(now() - |P1D|) as String {format: "MMMM"},
+	day: (now() - |P1D|) as String {format: "dd"}
+}]]></ee:set-variable>
+				<ee:set-variable variableName="currDate" ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	month :now() as String {format: "MMMM"},
+	day: now() as String {format: "dd"}
+}]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="944e9a2e-7bd5-4589-85e8-5ba0e08bf7d7" name="common-logicSub_Flow2"/>
+    </flow>
+</mule>

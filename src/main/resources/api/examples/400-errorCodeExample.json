@@ -1,0 +1,10 @@
+{
+    "Status": false,
+    "errors": [
+        {
+            "field": "fieldName",
+            "message": "fieldName must be present",
+            "code": "invalid_field"
+        }
+    ]
+}

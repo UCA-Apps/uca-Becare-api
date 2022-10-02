@@ -1,0 +1,162 @@
+#%RAML 1.0
+title: uca-tameenk-api
+description: This api is meant for handling taminee requests.
+version: v1
+baseUri: http://{environment}:8081/tameenk/{version}
+
+baseUriParameters:
+  environment:
+    description: dev, test, dr, prod
+    enum : [dev-mule-01,test-mule-01,dr-mule-01,prod-mule-01]
+
+protocols:
+  - HTTP
+  - HTTPS
+mediaType: 
+  - application/json
+
+traits:
+  transaction-header : !include exchange_modules/2b034c13-b738-4dde-96a1-045fa5ebd1dc/uca-header-transactionraml/1.0.0/uca-header-transaction-id.raml
+
+uses:
+  ucaTypes: uca-tameenk-library.raml
+
+/TPL:
+    post:
+      description: Tameenk will post a TPL request to mule API to this method to get a quote . Mule will validate the request and provide response (vehicle details & the quote) to Tameeni.
+      is: [transaction-header]
+      body:
+        application/json:
+          type: ucaTypes.quoteRequestType
+          example: !include examples/TPLRequestExample.json
+
+      responses:
+        200:
+          body:
+            application/json:
+              type: ucaTypes.quoteResponseType
+              example: !include examples/TPLResponseExample.json
+
+        400:
+          description: Bad request
+          body:
+            application/json:
+              example: !include examples/400-errorCodeExample.json
+        500:
+          description: Internal Server Error
+          body:
+            application/json:
+              example: !include examples/500-errorCodeExample.json
+/Quotation:
+    post:
+      description: Tameenk will post a Comprehensive request to mule API to this method to get a quote . Mule will validate the request and provide response (vehicle details & the quote) to Tameeni.
+      is: [transaction-header]
+      body:
+        application/json:
+          type: ucaTypes.quoteRequestType
+          example: !include examples/CompRequestExample.json
+
+      responses:
+        200:
+          body:
+            application/json:
+              type: ucaTypes.quoteResponseType
+              example: !include examples/CompResponseExample.json
+
+        400:
+          description: Bad request
+          body:
+            application/json:
+              example: !include examples/400-errorCodeExample.json
+        500:
+          description: Internal Server Error
+          body:
+            application/json:
+              example: !include examples/500-errorCodeExample.json
+
+/getQuotation/{quoteNo}:
+  get:
+    description: Retrieves basic commercial registration data such as dates,    statu         activities and others .
+  
+
+/Policy:
+  /TPL:
+    post:
+      description: Tameenk system shall post a request to issue the policy based on the generated quotation.
+      is: [transaction-header]
+      body:
+        application/json:
+          type: ucaTypes.PolicyReqType
+          example: !include examples/TPLPolicyReqExample.json
+
+      responses:
+        200:
+          body:
+            application/json:
+              type: ucaTypes.PolicyResType
+              example: !include examples/TPLPolicyResExample.json
+
+        400:
+          description: Bad request
+          body:
+            application/json:
+              example: !include examples/400-errorCodeExample.json
+        500:
+          description: Internal Server Error
+          body:
+            application/json:
+              example: !include examples/500-errorCodeExample.json
+  /Comprehensive:
+    post:
+      description: Tameenk system shall post a request to issue the policy based on the generated quotation.
+      is: [transaction-header]
+      body:
+        application/json:
+          type: ucaTypes.PolicyReqType
+          example: !include examples/ComprehensivePolicyReqExample.json
+
+      responses:
+        200:
+          body:
+            application/json:
+              type: ucaTypes.PolicyResType
+              example: !include examples/ComprehensivePolicyResExample.json
+
+        400:
+          description: Bad request
+          body:
+            application/json:
+              example: !include examples/400-errorCodeExample.json
+        500:
+          description: Internal Server Error
+          body:
+            application/json:
+              example: !include examples/500-errorCodeExample.json
+
+/PolicySchedule:
+  post:
+      description: Tameenk System shall post a request to Insurance Company to get policy file which was issued in policy service. This service can be used if the policy file is not returned in policy service.
+      is: [transaction-header]
+      body:
+        application/json:
+          type: ucaTypes.PolicyScheduleReqType
+          example: !include examples/PolicyScheduleReqExample.json
+
+      responses:
+        200:
+          body:
+            application/json:
+              type: ucaTypes.PolicyScheduleResType
+              example: !include examples/PolicyScheduleResExample.json
+
+        400:
+          description: Bad request
+          body:
+            application/json:
+              example: !include examples/400-errorCodeExample.json
+        500:
+          description: Internal Server Error
+          body:
+            application/json:
+              example: !include examples/500-errorCodeExample.json
+

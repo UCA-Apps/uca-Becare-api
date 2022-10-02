@@ -1,0 +1,585 @@
+#%RAML 1.0 Library
+usage: this library contains all the input and output schema types for all the resources invoked in API.
+
+types:
+  VehicleSpecificationsList:
+    type: array
+    items:
+      properties:
+        VehicleSpecificationCode:
+          type: number
+          maximum: 99
+  
+  DriversList:
+    type: array
+    items:
+      properties:
+        DriverTypeCode:
+          type: number
+          maximum: 9
+        DriverId:
+          type: number
+          maximum: 9999999999
+        DriverIdTypeCode:
+          type: number
+          maximum: 9
+        DriverBirthDate:
+          type: string
+          maxLength: 10
+        DriverNationalityCode:
+          type: string
+          maxLength: 4
+        DriverGenderCode:
+          type: string
+          maxLength: 1
+        DriverBirthDateG:
+          type: string
+          maxLength: 25
+        DriverFirstNameAr:
+          type: string
+          maxLength: 50
+        DriverMiddleNameAr  ?:
+          type: string
+          maxLength: 50
+        DriverLastNameAr:
+          type: string
+          maxLength: 50
+        DriverFirstNameEn:
+          type: string
+          maxLength: 50
+        DriverMiddleNameEn  ?:
+          type: string
+          maxLength: 50
+        DriverLastNameEn:
+          type: string
+          maxLength: 50
+        DriverSocialStatusCode ?:
+          type: string
+          maxLength: 2
+        DriverOccupationCode ?:
+          type: string
+          maxLength: 9
+        DriverOccupation ?:
+          type: string
+          maxLength: 50
+        DriverDrivingPercentage ?:
+          type: number
+          maximum: 999
+        DriverEducationCode ?:
+          type: number
+          maximum: 99
+        DriverMedicalConditionCode ?:
+          type: number
+          maximum: 99
+        DriverChildrenBelow16Years ?:
+          type: number
+          maximum: 99
+        DriverHomeCityCode ?:
+          type: string
+          maxLength: 3
+        DriverHomeCity ?:
+          type: string
+          maxLength: 50
+        DriverWorkCityCode ?:
+          type: string
+          maxLength: 3  
+        DriverWorkCity ?:
+          type: string
+          maxLength: 50
+        DriverNOALast5Years ?:
+          type: number
+          maximum: 99
+        DriverNOCLast5Years ?:
+          type: number
+          maximum: 99
+        DriverNCDFreeYears ?:
+          type: number
+          maximum: 99
+        DriverNCDReference ?:
+          type: string
+          maxLength: 20
+        DriverRelationship ?:
+          type: number
+          maximum: 99
+        DriverLicenses ?:
+          type: DriverLicensesList
+        DriverViolations ?:
+          type: DriverViolationsList
+
+  DriverLicensesList:
+    type: array
+    items:
+      properties:
+        LicenseCountryCode:
+          type: number
+          maximum: 9999
+        LicenseNumberYears:
+          type: number
+          maximum: 99
+        DriverLicenseTypeCode ?:
+          type: string
+          maxLength: 2
+        DriverLicenseExpiryDate ?:
+          type: string
+          maxLength: 10
+
+  DriverViolationsList:
+    type: array
+    items:
+      properties:
+        ViolationCode:
+          type: number
+          maximum: 99
+
+  quoteRequestType:
+    type: object
+    properties:
+      ReferenceId:
+        type: string
+        maxLength: 15
+      ProductTypeCode:
+        type: number
+        maximum: 99
+      PolicyEffectiveDate:
+        type: string
+        maxLength: 25
+      PromoCode ?:
+        type: string
+        maxLength: 10  
+      InsuredIdTypeCode:
+        type: number
+        maximum: 9
+      InsuredId:
+        type: number
+        minimum: 1000000000
+        maximum: 9999999999
+      InsuredBirthDate ?:
+        type: string
+        maxLength: 10
+      InsuredGenderCode ?:
+        type: string
+        maxLength: 1
+      InsuredNationalityCode ?:
+        type: string
+        maxLength: 4
+      InsuredIdIssuePlaceCode ?:
+        type: string
+        maxLength: 3
+      InsuredIdIssuePlace ?:
+        type: string
+        maxLength: 50
+      InsuredFirstNameAr ?:
+        type: string
+        maxLength: 50
+      InsuredMiddleNameAr ?:
+        type: string
+        maxLength: 50
+      InsuredLastNameAr ?:
+        type: string
+        maxLength: 50
+      InsuredFirstNameEn ?:
+        type: string
+        maxLength: 50
+      InsuredMiddleNameEn ?:
+        type: string
+        maxLength: 50
+      InsuredLastNameEn ?:     
+        type: string
+        maxLength: 50
+      InsuredSocialStatusCode ?:
+        type: string
+        maxLength: 1
+      InsuredOccupationCode ?:
+        type: string
+        maxLength: 9
+      InsuredOccupation ?:
+        type: string
+        maxLength: 50
+      InsuredEducationCode ?:
+        type: number
+        maximum: 99
+      InsuredChildrenBelow16Years ?:
+        type: number
+        maximum: 99
+      InsuredWorkCityCode ?:
+        type: string
+        maxLength: 3      
+      InsuredWorkCity ?:
+        type: string
+        maxLength: 50
+      InsuredCityCode:
+        type: string
+        maxLength: 3
+      InsuredCity:
+        type: string
+        maxLength: 50
+      VehicleIdTypeCode:
+        type: number
+        maximum: 9
+      VehicleId:
+        type: number
+      VehiclePlateNumber ?:
+        type: number
+        maximum: 9999
+      VehiclePlateText1 ?:
+        type: string
+        maxLength: 1
+      VehiclePlateText2 ?:
+        type: string
+        maxLength: 1
+      VehiclePlateText3 ?:
+        type: string
+        maxLength: 1
+      VehicleChassisNumber:
+        type: string
+        maxLength: 22
+      VehicleOwnerName ?:
+        type: string
+        maxLength: 200
+      VehicleOwnerId ?:
+        type: number
+        maximum: 9999999999
+      VehiclePlateTypeCode ?:
+        type: string
+        maxLength: 2
+      VehicleModelYear:
+        type: number
+        maximum: 9999
+      VehicleMaker:
+        type: string
+        maxLength: 50
+      VehicleMakerCode:
+        type: string
+        maxLength: 5
+      VehicleModel:
+        type: string
+        maxLength: 50
+      VehicleModelCode:
+        type: string
+        maxLength: 5
+      VehicleMajorColor ?:
+        type: string
+        maxLength: 50
+      VehicleMajorColorCode ?:
+        type: string
+        maxLength: 3
+      VehicleBodyTypeCode ?:
+        type: string
+        maxLength: 2
+      VehicleRegPlaceCode ?:
+        type: string
+        maxLength: 3
+      VehicleRegPlace ?:
+        type: string
+        maxLength: 50
+      VehicleRegExpiryDate ?:
+        type: string
+        maxLength: 10
+      VehicleCylinders ?:
+        type: number
+        maximum: 99
+      VehicleWeight ?:
+        type: number
+        maximum: 99999
+      VehicleLoad ?:
+        type: number
+        maximum: 99999
+      VehicleOwnerTransfer:
+        type: boolean
+      VehicleValue ?:
+        type: number
+        maximum: 999999999
+      DeductibleValue ?:
+        type: number
+        maximum: 9999
+      VehicleAgencyRepair ?:
+        type: boolean
+      VehicleEngineSizeCode ?:
+        type: number
+        maximum: 99
+      VehicleUseCode:
+        type: number
+        maximum: 99
+      VehicleMileage ?:
+        type: number
+        maximum: 999999
+      VehicleTransmissionTypeCode ?:
+        type: number
+        maximum: 9
+      VehicleMileageExpectedAnnualCode ?:
+        type: number
+        maximum: 9
+      VehicleAxleWeightCode ?:
+        type: number
+        maximum: 99
+      VehicleOvernightParkingLocationCode ?:
+        type: number
+        maximum: 9
+      VehicleModification ?:
+        type: boolean
+      VehicleModificationDetails ?:
+        type: string
+        maxLength: 200
+      NCDFreeYears:
+        type: number
+        maximum: 99
+      NCDReference:
+        type: string
+        maxLength: 20
+      VehicleSpecifications ?:
+        type: VehicleSpecificationsList      
+      Drivers:
+        type: DriversList
+
+  quoteResponseType:
+    type: object
+    properties:
+      ReferenceId:
+        type: string
+        maxLength: 15
+      StatusCode:
+        type: number
+        maximum: 9 
+      QuotationNo:
+        type: string
+        maxLength: 36
+      QuotationDate:
+        type: string
+        maxLength: 40
+      QuotationExpiryDate:
+        type: string
+        maxLength: 40
+      Products:
+        type: ProductsList
+      Errors ?:
+        type: ErrorsList 
+
+  ProductsList:
+    type: array
+    items:
+      properties:
+        ProductId ?:
+          type: string
+          maxLength: 36
+        ProductNameAr ?:
+          type: string
+          maxLength: 50
+        ProductNameEn ?:
+          type: string
+          maxLength: 50
+        ProductDescAr ?:
+          type: string
+          maxLength: 200
+        ProductDescEn ?:
+          type: string
+          maxLength: 200
+        ProductPrice:
+          type: number
+          maximum: 9999999999
+        DeductibleValue ?:
+          type: number
+          maximum: 9999
+        VehicleLimitValue ?:
+          type: number
+          maximum: 9999999999
+        PriceDetails ?:
+          type: PriceDetailsList
+        Benefits ?:
+          type: BenefitsList
+        ProposalForms ?:
+          type: ProposalFormsList
+
+  PriceDetailsList:
+    type: array
+    items:
+      properties:
+        PriceTypeCode:
+          type: number
+          maximum: 9
+        PriceValue:
+          type: number
+          maximum: 9999999999
+        PercentageValue ?:
+          type: number
+          maximum: 9999999999
+
+  BenefitsList:
+    type: array
+    items:
+      properties:
+        BenefitCode:
+          type: number
+          maximum: 999
+        BenefitId:
+          type: string
+          maxLength: 36
+        BenefitNameAr:
+          type: string
+          maxLength: 150
+        BenefitNameEn:
+          type: string
+          maxLength: 150
+        BenefitDescAr ?:
+          type: string
+          maxLength: 200
+        BenefitDescEn ?:
+          type: string
+          maxLength: 200
+        BenefitPrice:
+          type: number
+          maximum: 9999999999
+
+  ProposalFormsList:
+    type: array
+    items:
+      properties:
+        ProposalFormDataTypeCode:
+          type: number
+          maximum: 99
+        ProposalFormId:
+          type: string
+          maxLength: 36
+        ProposalFormNameAr:
+          type: string
+          maxLength: 50
+        ProposalFormNameEn:
+          type: string
+          maxLength: 50
+        ProposalFormMandatory:
+          type: boolean
+  ErrorsList:
+    type: array
+    items:
+      properties:
+        Code ?:
+          type: string
+        Field ?:
+          type: string
+        Message:
+          type: string 
+  PolicyReqType:
+    type: object
+    properties:
+      ReferenceId:
+        type: string
+        maxLength: 15
+      QuotationNo:
+        type: string
+        maxLength: 36
+      ProductId ?:
+        type: string
+        maxLength: 36
+      Benefits ?: 
+        type: array
+        items:
+          properties:
+            BenefitId:
+              type: string
+              maxLength: 36
+      InsuredId:
+        type: number
+        minimum: 1000000000
+        maximum: 9999999999
+      InsuredMobileNumber:
+        type: string
+        maxLength: 50
+      InsuredEmail:
+        type: string
+        maxLength: 50
+      InsuredBuildingNo:
+        type: number
+        maximum: 9999
+      InsuredZipCode:
+        type: number
+        maximum: 99999
+      InsuredAdditionalNumber:
+        type: number
+        maximum: 9999
+      InsuredUnitNo:
+        type: number
+        maximum: 9999
+      InsuredCity:
+        type: string
+        maxLength: 50
+      InsuredDistrict:
+        type: string
+        maxLength: 50
+      InsuredStreet:
+        type: string
+        maxLength: 50
+      InsuredIBAN ?:
+        type: string
+        maxLength: 24
+      InsuredBankCode ?:
+        type: string
+        maxLength: 2
+      PaymentMethodCode ?:
+        type: number
+        maximum: 9
+      PaymentMethod ?:
+        type: string
+        maxLength: 11
+      PaymentAmount ?:
+        type: number
+        maximum: 9999999999
+      PaymentBillNumber ?:
+        type: string
+        maxLength: 20
+      PaymentUsername ?:
+        type: string
+        maxLength: 30
+      ProposalForms ?:
+        type: array
+        items:
+          properties:
+            ProposalFormId:
+              type: string
+              maxLength: 36
+            ProposalFormValue:
+              type: object
+
+  PolicyResType:
+    type: object
+    properties:
+      ReferenceId:
+        type: string
+        maxLength: 15
+      StatusCode:
+        type: number
+        maximum: 9
+      Errors ?: ErrorsList
+      PolicyFile ?:
+        type: string
+      PolicyFileUrl ?:
+        type: string
+
+
+  PolicyType:
+    type: object
+    properties:
+      PolicyResType: PolicyResType
+      PolicyNo:
+        type: string
+        maxLength: 36
+      PolicyIssuanceDate:
+        type: string
+        maxLength: 50
+      PolicyEffectiveDate:
+        type: string
+        maxLength: 50
+      PolicyExpiryDate:
+        type: string
+        maxLength: 50
+      
+  PolicyScheduleReqType:
+    type: object
+    properties:
+      ReferenceId:
+        type: string
+        maxLength: 15
+      PolicyNo:
+        type: string
+        maxLength: 36
+
+  PolicyScheduleResType: PolicyResType
+

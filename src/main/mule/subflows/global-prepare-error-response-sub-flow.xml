@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	     <sub-flow name="global-prepare-error-response-sub-flow" doc:id="e7105933-ccc0-4c38-883f-866b4e7310b0">
+		<ee:transform doc:name="Init Variables" doc:id="9ac6d124-a632-4b7d-a0ee-0134f3f06734" >
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="errorRaised"><![CDATA[%dw 2.0
+output application/java
+---
+true]]></ee:set-variable>
+				<ee:set-variable variableName="errorMessage"><![CDATA[%dw 2.0
+output application/java
+---
+if(vars.errorMessage?) 
+	vars.errorMessage 
+else 
+	(vars.httpStatus default "") ++ " : " ++ (error.errorType.identifier default "")]]></ee:set-variable>
+				<ee:set-variable variableName="errorDescription"><![CDATA[%dw 2.0
+output application/java
+var erdes= if(vars.errorDescription?) 
+	vars.errorDescription 
+else 
+	error.exception.detailMessage
+---
+if((typeOf(erdes) as String default '') == 'String') erdes
+else (
+	erdes map (
+		if($ contains 'is not greater or equal to') $ replace 'is not greater or equal to 1.0E9' with 'should be 10 digits'
+		else $)
+	)
+]]></ee:set-variable>
+				<ee:set-variable variableName="logCategory"><![CDATA[%dw 2.0
+output application/java
+---
+'Exception']]></ee:set-variable>
+				<ee:set-variable variableName="logLevel"><![CDATA[%dw 2.0
+output application/java
+---
+'ERROR']]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Error Response" doc:id="b3f4217a-bdc4-4fa1-b07a-a7f671ac0200" >
+			<ee:message >
+				<ee:set-payload resource="dataweave/error-json-response.dwl"/>
+			</ee:message>
+		</ee:transform>
+		<async doc:name="Async" doc:id="ce91f955-cec9-43d2-a9e3-a17053269e4e" >
+			<json-logger:logger doc:name="End" doc:id="4755fee4-52e2-47c8-8b56-e75df57fdd15" config-ref="JSON_Logger_Config" message="Global Error Handler subFlow Ended" tracePoint="EXCEPTION" priority="ERROR"/>
+		
+</async>
+	
+</sub-flow>
+	<sub-flow name="global-prepare-error-response-sub-flowSub_Flow" doc:id="21686057-9eaa-4ce7-9158-6dc0ab31c7bc" >
+		<ee:transform doc:name="Error Response" doc:id="3385f4b6-ef94-4ef2-be3a-fdbc4edc1e30" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="errorResponse" ><![CDATA[%dw 2.0
+output application/java
+---
+"\nHi Team,\n\nPlease find the below issue when accessing the VPMS file store \n\n" ++ error.detailedDescription ++ "\nFor more details please find the attached error details.\n\nThanks,\n"]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<email:send doc:id="46c8843b-1f40-4f0f-bb90-af27dd252ee2" config-ref="Email_SMTP" fromAddress="uca_notify@uca.com.sa" subject="#['VPMS file store issue - ' ++ '${env}' ++ ' environment']" toAddresses="#['${email.failure.notification}' splitBy ',']" doc:name="Send" >
+			<email:body contentType="text/plain" encoding="UTF-8">
+				<email:content ><![CDATA[#[vars.errorResponse]]]></email:content>
+			</email:body>
+		</email:send>
+	</sub-flow>
+
+</mule>

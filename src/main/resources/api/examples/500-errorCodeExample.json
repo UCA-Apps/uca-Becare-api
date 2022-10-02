@@ -1,0 +1,10 @@
+{
+    "Status": false,
+    "errors": [
+        {
+            "field": "",
+            "message": "Internal Server Error",
+            "code": ""
+        }
+    ]
+}

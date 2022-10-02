@@ -1,0 +1,27 @@
+{
+    "ReferenceId": "C0595cdfda3df6d",
+    "QuotationNo": "4324057",
+    "ProductId": "864",
+    "Benefits": [
+        {
+            "BenefitId": "120"
+        }
+    ],
+    "InsuredId": 1051859500,
+    "InsuredMobileNumber": "966552660771",
+    "InsuredEmail": "malmutlaq@bcare.com.sa",
+    "InsuredBuildingNo": 2335,
+    "InsuredZipCode": 12477,
+    "InsuredAdditionalNumber": 7889,
+    "InsuredUnitNo": 1,
+    "InsuredCity": "Riyadh",
+    "InsuredDistrict": "Altaawn",
+    "InsuredStreet": "North Ring Rd",
+    "PaymentMethodCode": 1,
+    "PaymentMethod": "CreditCard",
+    "PaymentAmount": 1727.25,
+    "PaymentBillNumber": "01-20-21",
+    "PaymentUsername": "malmutlaq",
+    "InsuredIBAN": "SA7620000000000123456789",
+    "InsuredBankCode": "20"
+}

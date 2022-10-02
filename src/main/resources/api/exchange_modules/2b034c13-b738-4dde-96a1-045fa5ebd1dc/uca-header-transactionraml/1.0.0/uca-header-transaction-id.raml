@@ -1,0 +1,9 @@
+#%RAML 1.0 Trait
+  usage: transaction ID to track the API transaction. if client system sends this ID to mule ESB, this client ID will be ocnsidered. Otherwise, mule will generate its own transaction ID suing uuid() function.
+  headers:
+    x-transaction-id:
+      type: string
+      description: transaction ID
+      required: false
+      example: "123"
+      maxLength: 50

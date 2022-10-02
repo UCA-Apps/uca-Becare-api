@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd">
+	<sub-flow name="common-logicSub_Flow" doc:id="1c00d0ce-9e96-4bbd-9c80-b4e5bf05291d" >
+		<os:retrieve doc:name="Retrieve" doc:id="67c3dc57-ede1-4518-84c1-a653a293f971" key="CategoryType" objectStore="Object_store_tameenk" target="CategoryType">
+			<os:default-value><![CDATA[#[[]]]]></os:default-value>
+		</os:retrieve>
+		<ee:transform doc:name="Mandatory Validation" doc:id="1493140e-e8f5-4152-a214-eb96da5de6cf" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dataweave/comp-req.dwl" variableName="mandatoryValidation" />
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Mandatory Validation" doc:id="8f271b1e-595b-4780-94a4-39d80913791d" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable resource="dataweave/comp-req2.dwl" variableName="mandatoryValidation2" />
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="7c719359-8a64-44d4-a06f-836395f33fe0" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="mandatoryValidation" ><![CDATA[%dw 2.0
+output application/java
+---
+flatten((vars.mandatoryValidation default[]) ++ (vars.mandatoryValidation2 default []))]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+	<flow name="common-logicFlow" doc:id="fd669651-643c-4c84-94fc-f571cf1ba3bb" >
+		<ee:transform doc:name="Transform Message" doc:id="0ae6b943-3700-4a31-9b22-dad76cdbddc6">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="sql"><![CDATA[%dw 2.0
+output application/java
+fun proId()="SELECT max(poductid) as ELM_CODE FROM dbo.MULE_tameenk_Quotes_products"
+fun BenefitId()= "SELECT max(benefitid) as ELM_CODE FROM [dbo].[MULE_tameenk_Quotes_benefits]"
+fun product(product: String)= "SELECT code as ELM_CODE FROM [dbo].[AGG_TAMEENK_LOOKUPS] where IS_ACTIVE = 1 and CATEGORY like '%Cover Type%' and code='"++ (product default '') ++"'"
+---
+if(payload.typeDB == 'product')product(payload.product)
+else if(payload.typeDB == 'proId')proId()
+else if(payload.typeDB == 'BenefitId')BenefitId()
+else null]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<db:select doc:id="1da3b9d9-7709-4a86-8252-2c5bdf3c555f" config-ref="Database_Config">
+			<db:sql ><![CDATA[#[vars.sql]]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="8fb07ccc-1f28-4505-a787-14d46d67084a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+(if(payload.ELM_CODE[0] != null)payload.ELM_CODE[0] else payload.uca_code[0]) default ''
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	
+	<flow name="benefitsIds" doc:id="9a50280b-daf2-41da-96ba-1d9e87d0e187" >
+		<os:store doc:name="Store" doc:id="0531f59b-290c-4bb3-afdf-354406aaabbe" key="benefitKeyLatest" objectStore="Object_store_tameenk">
+			<os:value ><![CDATA[#[payload.id + 1]]]></os:value>
+		</os:store>
+		<os:retrieve doc:name="Retrieve" doc:id="be0aee75-0369-44c1-a442-fd140d6b928e" key="benefitKeyLatest" objectStore="Object_store_tameenk" target="benefitId">
+			<os:default-value ><![CDATA[#[payload.id]]]></os:default-value>
+		</os:retrieve>
+		<set-payload value="#[vars.benefitId]" doc:name="Set Payload" doc:id="f56882f5-a075-4b48-9b16-a24b63b22776" />
+	</flow>
+	<flow name="benefitsIdsStore" doc:id="6d4e7af4-973b-4152-9da2-3cb33e3fb99b" >
+		<os:store doc:name="Store" doc:id="c92475c4-edbf-4250-a1a9-3a275af3bc4a" key="benefitKeyLatest" objectStore="Object_store_tameenk" >
+			<os:value ><![CDATA[#[payload.valueCheck]]]></os:value>
+		</os:store>
+		<set-payload value="#[payload.valueCheck]" doc:name="Set Payload" doc:id="a460a3cf-b6dc-4f51-b5fc-5117f9879b98" />
+	</flow>
+	<flow name="benefitsIdsCheck" doc:id="a3f2bbd9-bfb8-445a-82ff-7cdb8cac7bf0" >
+		<os:retrieve doc:name="Retrieve" doc:id="cb12a66d-4220-4117-a08a-be0d844b1693" key="benefitKeyLatest" objectStore="Object_store_tameenk">
+			<os:default-value ><![CDATA[129269898]]></os:default-value>
+		</os:retrieve>
+	</flow>
+	<flow name="tameenk_Quotes" doc:id="a6b134c6-10ef-42b7-9255-e52adba79ad4" >
+		<ee:transform doc:name="Transform Message" doc:id="997aa53e-d077-477b-a00f-aeb6d5add68f" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="insert" ><![CDATA[%dw 2.0
+output text/plain
+var success= if(payload.dbType == "success")"INSERT INTO [dbo].[MULE_tameenk_Quotes_success] ([Reference_Id],[statuscode],[quotationno],[quotationdate],[quotationexpirydate],[create_on],[tameenk_status])
+ VALUES ('" ++ payload.ReferenceId ++ "','" ++ payload.StatusCode ++ "','" ++ payload.QuotationNo ++ "','" ++ payload.QuotationDate ++ "','" ++ payload.QuotationExpiryDate ++ "','" ++ now() ++ "','')"
+else ""
+var product= if(payload.dbType == "product")"INSERT INTO [dbo].[MULE_tameenk_Quotes_products] ([quotationno],[poductid],[productprice],[productdescar],[productdescen],[DeductibleValue],[VehicleLimitValue]) 
+VALUES ('" ++ payload.QuotationNo ++ "','" ++ payload.ProductId ++ "','" ++ payload.ProductPrice ++ "',N'" ++ payload.ProductDescAr ++ "','" ++ payload.ProductDescEn ++ "','" ++ payload.DeductibleValue ++ "','" ++ payload.VehicleLimitValue ++ "')"
+else ""
+var price= if(payload.dbType == "price")"INSERT INTO [dbo].[MULE_tameenk_Quotes_pricedetails] ([quotationno],[poductid],[pricetypecode],[pricevalue],[percentagevalue]) 
+VALUES ('" ++ payload.QuotationNo ++ "','" ++ payload.ProductId ++ "','" ++ payload.PriceTypeCode ++ "','" ++ payload.PriceValue ++ "','" ++ payload.PercentageValue ++ "')"
+else ""
+var benefit= if(payload.dbType == "benefit") "INSERT INTO [dbo].[MULE_tameenk_Quotes_benefits] ([quotationno],[poductid],[benefitcode],[benefitid],[benefitnamear],[benefitnameen],[benefitprice]) 
+VALUES ('" ++ payload.QuotationNo ++ "','" ++ payload.ProductId ++ "','" ++ payload.BenefitCode ++ "','" ++ payload.BenefitId ++ "',N'" ++ payload.BenefitNameAr ++ "','" ++ payload.BenefitNameEn ++ "','" ++ payload.BenefitPrice ++ "')"
+else ""
+---
+if(payload.dbType == "success")success
+else if(payload.dbType == "product")product
+else if(payload.dbType == "price")price
+else if(payload.dbType == "benefit")benefit
+else null
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<db:insert doc:name="Insert" doc:id="b5416689-6fbd-4e77-ac7b-5e296d346727" config-ref="Database_Config">
+			<db:sql ><![CDATA[#[vars.insert]]]></db:sql>
+		</db:insert>
+	</flow>
+	<sub-flow name="common-logicSub_Flow1" doc:id="c8babd31-ff3d-4443-8d47-0e92c52bb890" >
+		<ee:transform doc:name="Transform Message" doc:id="7062cb23-0bd8-443e-b844-cba66390f10b">
+				<ee:message />
+				<ee:variables>
+				<ee:set-variable variableName="req" ><![CDATA[%dw 2.0
+output text/plain
+---
+write(vars.setRequest, "application/json")]]></ee:set-variable>
+				<ee:set-variable variableName="res" ><![CDATA[%dw 2.0
+output text/plain
+---
+write(payload, "application/json")]]></ee:set-variable>
+				<ee:set-variable variableName="path" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	req: 'D:/uca/Documents/Tameenk/Quotation/' ++ vars.monthDate.month ++ '/' ++ vars.monthDate.day ++ "/" ++ vars.setRequest.ReferenceId default '' ++ "_Request" ++ '.json',
+	res: 'D:/uca/Documents/Tameenk/Quotation/' ++ vars.monthDate.month ++ '/' ++ vars.monthDate.day ++ "/" ++ vars.setRequest.ReferenceId default '' ++ "_Response" ++ '.json',
+    server_ip: '10.2.11.197',
+    reqFile: vars.setRequest.ReferenceId default '' ++ "_Request",
+    resFile: vars.setRequest.ReferenceId default '' ++ "_Response"
+}
+
+    ]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		<http:request method="POST" doc:name="Request" doc:id="c8e57e17-d0a1-4c15-b6ed-5013dc86303e" url="${tameenk.fileurl1}/fileTest" target="req">
+			<http:body ><![CDATA[#[vars.setRequest]]]></http:body>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "Quotation" ++ '/' ++ vars.monthDate.month ++ '/' ++ vars.monthDate.day ,
+	"file" : vars.path.reqFile,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+		</http:request>
+		<http:request method="POST" doc:name="Request" doc:id="7157467d-fc5e-4935-88e4-afa4357bfed4" url="${tameenk.fileurl1}/fileTest" target="res">
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "Quotation" ++ '/' ++ vars.monthDate.month ++ '/' ++ vars.monthDate.day ,
+	"file" : vars.path.resFile,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="309d354f-dfaf-4315-98ae-2aef06cdb707">
+				<ee:message />
+				<ee:variables>
+				<ee:set-variable variableName="SQL" ><![CDATA[%dw 2.0
+output application/java
+---
+"INSERT INTO [dbo].[MULE_tameenk_req_res_data]  (Quotation_no ,req ,res ,server_location , created_on,status)
+     VALUES ('" ++ (vars.setRequest.ReferenceId default '') ++ "',
+            N'" ++ vars.path.req ++ "', 
+            N'" ++ vars.path.res ++ "',
+			'" ++ vars.path.server_ip ++ "',
+            '" ++ now() ++ "','inProgress')"       ]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+		<db:insert doc:name="Insert" doc:id="9ad2b808-90bc-4856-8fcb-ab34f6624f22" config-ref="Database_Config">
+				<db:sql><![CDATA[#[vars.SQL]]]></db:sql>
+			</db:insert>
+	</sub-flow>
+	<sub-flow name="common-logicSub_Flow2" doc:id="6cedafe8-f466-4776-8cb5-0eeb356d1f5a" >
+		<ee:transform doc:name="Transform Message" doc:id="fba59b11-a133-425b-b298-8f4c32126e83">
+			<ee:message />
+			<ee:variables>
+				<ee:set-variable variableName="path"><![CDATA[%dw 2.0
+output application/java
+var dbPath= vars.currDate.month ++ '/' ++ vars.currDate.day ++ '/' ++ vars.quoteNo
+---
+{
+	vpmsreq:dbPath ++ '_Request',
+	vpms:dbPath ++ '_Response',
+	req: dbPath ++ '_Request',
+	res: dbPath ++ '_Response'
+}
+
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<try doc:name="Try" doc:id="0977328f-52f2-4a53-a915-00559cddea09" >
+			<http:request method="GET" doc:name="vpms req" doc:id="12cdb3ff-e514-4f31-84db-83f719064e87" url="${tameenk.fileurl}/fileTestRead" target="vpmsReq">
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "VPMS",
+	"file" : vars.path.vpmsreq,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+		</http:request>
+			<http:request method="GET" doc:name="vpms res" doc:id="7464d26a-31fb-4746-970c-4864afa1d68a" url="${tameenk.fileurl}/fileTestRead" target="vpmsRes">
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "VPMS",
+	"file" : vars.path.vpms,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+		</http:request>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d622d5cd-64d3-4e83-b454-45e8b98ee2cf" >
+					<logger level="INFO" doc:name="Logger" doc:id="e80df173-3431-4bfb-b9df-acd342c6d247" />
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<try doc:name="Try" doc:id="f7805085-abf6-4fbd-836d-c6e7ebfe0655" >
+			<http:request method="GET" doc:name="quotation req" doc:id="13453c6e-4065-46b2-b3af-6f5fb9116194" url="${tameenk.fileurl}/fileTestRead" target="quoteReq">
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "Quotation",
+	"file" : vars.path.req,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+		</http:request>
+			<http:request method="GET" doc:name="quotation res" doc:id="b0cc4301-70b4-4729-8d1e-85896ad07bb1" url="${tameenk.fileurl}/fileTestRead" target="quoteRes">
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "Quotation",
+	"file" : vars.path.res,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+		</http:request>
+			<ee:transform doc:name="Transform Message" doc:id="d7bc74c4-1487-4aff-b73e-e2ee49e5f634">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var vpmsRes= vars.vpmsRes
+---
+{
+     Aggregator: {             
+   Request: vars.quoteReq, // Aggregator request Json
+   Response: vars.quoteRes // Aggregator response Json
+            },
+ VPMS:{
+              Request: vars.vpmsReq, // VPMS request Json
+              Response: vpmsRes // VPMS response Json        
+       }
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="19ed0286-4715-4314-bd4f-01c91482b8d8" >
+					<flow-ref doc:name="Flow Reference" doc:id="6543066f-84db-4076-8985-dd154820d78f" name="Copy_of_common-logicSub_Flow"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<async doc:name="Async" doc:id="f3298b8d-a95f-4e01-8fde-e27995e64d49" >
+			<choice doc:name="Choice" doc:id="83816c36-88d9-4d8f-adbe-b08f39c94178" >
+				<when expression='#[vars.muleType == "dummy"]'>
+					<logger level="INFO" doc:name="Logger" doc:id="e2fe8ddc-036f-41c2-a209-9deab6c9dd66" />
+				</when>
+				<otherwise >
+					<db:update doc:name="Update" doc:id="0fab7786-9426-4a56-8d08-f96dd0172a1e" config-ref="Database_Config">
+				<db:sql><![CDATA[update [dbo].[MULE_tameenk_req_res_data] set status= 'selected' where Quotation_no= :quoteNo]]></db:sql>
+				<db:input-parameters><![CDATA[#[quoteNo: vars.quoteNo]]]></db:input-parameters>
+			</db:update>
+				</otherwise>
+			</choice>
+		</async>
+	</sub-flow>
+	<sub-flow name="Copy_of_common-logicSub_Flow" doc:id="7fcb9c94-e4a1-4374-a7a2-545c99c94cd0" >
+		<ee:transform doc:name="Copy_of_Transform Message" doc:id="695a9dc4-85dc-4cae-a8e0-7414e09d2501" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="path" ><![CDATA[%dw 2.0
+output application/java
+var dbPath= vars.preDate.month ++ '/' ++ vars.preDate.day ++ '/' ++ vars.quoteNo
+---
+{
+	vpmsreq:dbPath ++ '_Request',
+	vpms:dbPath ++ '_Response',
+	req: dbPath ++ '_Request',
+	res: dbPath ++ '_Response'
+}
+
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<try doc:name="Copy_of_Try" doc:id="65167293-d040-4a33-afd8-7b839aaf6b8c" >
+			<http:request method="GET" doc:name="Copy_of_vpms req" doc:id="bab7e479-ddb5-4459-9e35-eb799904b2ac" url="${tameenk.fileurl}/fileTestRead" target="vpmsReq" >
+				<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "VPMS",
+	"file" : vars.path.vpmsreq,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+			</http:request>
+			<http:request method="GET" doc:name="Copy_of_vpms res" doc:id="607839b2-3e59-4eeb-a6e0-43a2bb882b80" url="${tameenk.fileurl}/fileTestRead" target="vpmsRes" >
+				<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "VPMS",
+	"file" : vars.path.vpms,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+			</http:request>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="Copy_of_On Error Continue" doc:id="d894c150-8618-4852-8490-6a8935452002" >
+					<logger level="INFO" doc:name="Copy_of_Logger" doc:id="981b9b38-05d7-47a2-8808-f0b118dcdd6d" />
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<http:request method="GET" doc:name="Copy_of_quotation req" doc:id="1dfe8d31-00f5-468b-abf3-651ed00ced11" url="${tameenk.fileurl}/fileTestRead" target="quoteReq">
+				<http:query-params><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "Quotation",
+	"file" : vars.path.req,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+			</http:request>
+		<http:request method="GET" doc:name="Copy_of_quotation res" doc:id="a800ba08-897d-45ca-9240-001930d85f3c" url="${tameenk.fileurl}/fileTestRead" target="quoteRes">
+				<http:query-params><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "Quotation",
+	"file" : vars.path.res,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+			</http:request>
+		<ee:transform doc:name="Copy_of_Transform Message" doc:id="8c1c653d-efad-4c4e-b21f-3bc05d9376b7">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+var vpmsRes= vars.vpmsRes
+---
+{
+     Aggregator: {             
+   Request: vars.quoteReq, // Aggregator request Json
+   Response: vars.quoteRes // Aggregator response Json
+            },
+ VPMS:{
+              Request: vars.vpmsReq, // VPMS request Json
+              Response: vpmsRes // VPMS response Json        
+       }
+}
+]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+	</sub-flow>
+	<sub-flow name="Copy_of_common-logicSub_Flow1" doc:id="d286c9f2-7064-4b47-9fbe-870fb590d6e6" >
+		<ee:transform doc:name="Transform Message" doc:id="d13c68f3-ab51-4e15-ac12-87cde1972e5c" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="mongoDB" ><![CDATA[%dw 2.0
+output application/json
+var comp_type= if(vars.setRequest.ProductTypeCode == 2)
+					if(vars.setRequest.VehicleAgencyRepair) 'COM_AG' else 'COM_NA'
+			   else 'TPL'
+---
+{
+	"AGGREGATOR": "TAMEENK", 
+	"REFERENCE_ID": vars.setRequest.ReferenceId, 
+	"CREATED_ON": now(), 
+	"STATUS": "In Progress", 
+	"QUOTATION_TYPE": comp_type,
+	"QUOTATION_STATUS": if(payload."StatusCode" == 1) true else false, 
+	"AGG_REQUEST": vars.setRequest default null, 
+	"AGG_RESPONSE": payload default null, 
+	"VPMS_REQUEST": vars.requestVPMS default null, 
+	"VPMS_RESPONSE": vars.vpmsres default null 
+}
+
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<mongo:insert-document collectionName="MULE_REQUESTS_RESPONSE" doc:id="fb42c440-2b8e-4ba9-8a02-ae7c67334ac7" config-ref="MongoDB_Config" target="mongoDb" doc:name="Insert document" >
+			<mongo:document ><![CDATA[#[vars.mongoDB]]]></mongo:document>
+		</mongo:insert-document>
+	</sub-flow>
+</mule>

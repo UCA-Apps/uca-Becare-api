@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	
+	<os:object-store name="Object_store_tameenk" doc:name="Object store" doc:id="f99afd7b-4c36-4260-8ac8-7a8d7aa74d27" />
+	<flow name="quotesCompFlow" doc:id="43b486e0-16af-4db5-835e-39115d0bac70" >
+		 <async doc:name="Async" doc:id="05adb675-0464-4c83-aa9f-08a36c38f7c1" >
+			<ee:transform doc:name="Transform Message" doc:id="8605c10d-800c-4888-bf9c-a085c8898ff8" >
+				<ee:message >
+				</ee:message>
+				<ee:variables >
+					<ee:set-variable variableName="jsonPayloadReq" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	ReferenceId: payload.ReferenceId,
+	InsuredId:payload.InsuredId
+}]]></ee:set-variable>
+				</ee:variables>
+			</ee:transform>
+			<json-logger:logger doc:name="Start" doc:id="4c814cb0-69d4-4891-b86e-a329c0b4fa51" config-ref="JSON_Logger_Config" message="Quotes Comp Started">
+				<json-logger:content ><![CDATA[#[import modules::JSONLoggerModule 
+output application/json 
+---
+{
+    payload: JSONLoggerModule::stringifyNonJSON(vars.jsonPayloadReq) 
+}]]]></json-logger:content>
+			</json-logger:logger>
+		</async>
+		<flow-ref doc:name="Mandatory Validation" doc:id="221a3844-7188-4476-81a0-3044c3274ccc" name="common-logicSub_Flow"/>
+		<choice doc:name="Choice" doc:id="aa43a018-5cf5-4e86-9270-3e0b46da82f9" >
+			<when expression="#[sizeOf(vars.mandatoryValidation default '') &gt; 0]">
+				<ee:transform doc:name="Validation Error Response" doc:id="a3c69a53-64b8-4197-a625-16b6e80f8506" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+fun field(field: String) = ((field splitBy(" "))[0] splitBy("/")) [sizeOf((field splitBy(" "))[0] splitBy("/"))-1]
+---
+{
+ "ReferenceId" : payload.ReferenceId,
+ "StatusCode" : 2,
+ "Errors" : flatten(vars.mandatoryValidation) map {
+ 	Code: 400,
+ 	Message: ($ replace 'ProductTypeCode ,' with '') replace 'PolicyEffectiveDate ,' with '',
+ 	Field: field($)
+ } 
+}
+]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+400]]></ee:set-variable>
+						<ee:set-variable variableName="jsonPriority" ><![CDATA[%dw 2.0
+output application/java
+---
+'ERROR']]></ee:set-variable>
+						<ee:set-variable variableName="jsonTrace" ><![CDATA[%dw 2.0
+output application/java
+---
+'EXCEPTION']]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<async doc:name="Async" doc:id="45d62398-5d73-45ea-81a5-8b4f328098a1" >
+					<flow-ref doc:name="Flow Reference" doc:id="cc0ef31c-ea7f-4b93-b3e5-a770f6be17b3" name="quotesCompFlowSub_Flow2"/>
+				</async>
+			</when>
+			<otherwise >
+				<os:retrieve doc:name="Retrieve" doc:id="147ccaea-9af6-48c7-94dc-4be2833d8c3d" key="productKey" objectStore="Object_store_tameenk" target="productId">
+					<os:default-value ><![CDATA[19107730]]></os:default-value>
+				</os:retrieve>
+				<os:retrieve doc:name="Retrieve" doc:id="521af2e6-4773-4713-80e5-b25af06213e6" key="benefitKeyLatest" objectStore="Object_store_tameenk" target="benefitId">
+					<os:default-value ><![CDATA[129269898]]></os:default-value>
+				</os:retrieve>
+				<os:retrieve doc:name="Retrieve" doc:id="a5ec8632-b2f5-48f8-b53a-bedaca05ee9a" key="vpmsDB" objectStore="Object_store_tameenk" target="vpmsDBData">
+					<os:default-value><![CDATA[#[[]]]]></os:default-value>
+				</os:retrieve>
+				<ee:transform doc:name="Transform Message" doc:id="7449b1b5-e073-4cd6-aaad-56800a463a4a">
+					<ee:message>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="requestVPMS" ><![CDATA[%dw 2.0
+import withMaxSize from dw::core::Strings
+output application/json
+
+fun vpmsDBData(elm_category, model, make, test)= trim((vars.vpmsDBData filter($.elm_category == elm_category and $.model == model and $.make == make and $.test == test) map($.ELM_CODE))[0] default '')
+var model=vpmsDBData('Vehicle Model', payload.VehicleModelCode default '', payload.VehicleMakerCode default '', '')
+---
+{
+    "ID_Page_BA_CAR_Insurance": {
+        "ID_GlobalParameters": {
+            "A_CM_QuoteID_STR": {
+                "value": '2_' ++ payload.ReferenceId //"test002"
+            },
+            "A_CM_Channel_KEY": {
+                "value": "475" // IHC 476, 
+            },
+            "A_CM_Language_KEY": {
+                "value": "EN"
+            }
+        },
+        "ID_ContractLevel": {
+            "A_BA_CAR_DateOfInception_DAT": {
+                "value": (payload.PolicyEffectiveDate as Date as String {format:"y-MM-dd"}) default null //"2021-06-25"
+            },
+            "A_BA_CAR_Loading_Commission_TPL_REA": {
+                "value": 2
+            },
+            "A_BA_CAR_Loading_Commission_COM_REA": {
+                "value": 15
+            },
+            "A_BA_CAR_Loading_UW_REA": {
+                "value": 0
+            },
+            "A_BA_CAR_UWDiscount_REA": {
+                "value": 0
+            },
+            "A_BA_CAR_TransactionType_KEY": {
+                "value": "4098"
+            },
+            "A_BA_CAR_LoyaltyDiscount_BOO": {
+                "value": false
+            }
+        },
+        "ID_IN_VEH_Vehicle_Multi": {
+            "items": [
+                {
+                    "ID_IN_VEH_Vehicle": {
+                        "A_IN_VEH_VehicleMake_STR": {
+                            "value": vpmsDBData('Vehicle Make', '', payload.VehicleMakerCode default '', '') replace "  " with " "
+                        },
+                        "A_IN_VEH_VehicleModel_STR": {
+                            "value": model  replace "  " with " "
+                        },
+                        "A_IN_VEH_Purpose_KEY": {
+                            "value": vpmsDBData('Use Of Vehicle', (payload.VehicleUseCode default 1) as String, '', '') replace "  " with " "
+                        }, 
+                        "A_IN_VEH_YearOfManufacture_INT": {
+                            "value": payload.VehicleModelYear // 2019 
+                        },
+                        "A_IN_VEH_PlateType_KEY": {
+                            "value": if(payload.VehicleIdTypeCode == 2 and payload.VehiclePlateTypeCode == null) "12" else payload.VehiclePlateTypeCode //"1" // lookup Agg
+                        },
+                        "A_IN_VEH_SeatCount_INT": {
+                            "value": payload.VehicleLoad//5 // 
+                        }
+                    },
+                    "ID_IN_DRV_Driver_Multi": {
+                        "items": payload.Drivers map
+                            {
+                                "ID_IN_DRV_Driver": {
+                                    "A_IN_DRV_Birthdate_DAT": {
+                                        "value": ($.DriverBirthDateG as Date as String {format:"y-MM-dd"}) default null  //"1990-01-25"  // GEO
+                                    },
+                                    "A_IN_DRV_City_KEY": {
+                                        "value": vpmsDBData('ADDRESS_CITY', $.DriverHomeCityCode default '', '', '') replace "  " with " "
+                                    },
+                                    "A_IN_DRV_Gender_KEY": {
+                                        "value": if($.DriverGenderCode == 'M') "189" else if($.DriverGenderCode == 'F') "190" else null //"189"
+                                    },
+                                    "A_IN_DRV_PercentOfUsage_INT": {
+                                        "value": $.DriverDrivingPercentage //100
+                                    },
+                                    "A_IN_DRV_NumberOfAtFaultClaims_INT": {
+                                        "value": 0
+                                    },
+                                    "A_IN_DRV_NCDcode_KEY": {
+                                        "value": if($.DriverNCDFreeYears == 0) 13 else $.DriverNCDFreeYears //"2"
+                                    }
+                                }
+                            }
+                        
+                    },
+                    "ID_CV_COM_ComprehensiveCover": {
+                        "A_CV_COM_SumInsured_INT": {
+                            "value": payload.VehicleValue //50000
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<http:request method="POST" doc:name="call VPMS service" doc:id="3bdaee96-5d4f-40a1-ba6b-0461d15f1f00" url="${vpms.url}">
+					<http:body ><![CDATA[#[vars.requestVPMS]]]></http:body>
+					<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"_exprop" : p('vpms.param')
+}]]]></http:query-params>
+				</http:request>
+				<ee:transform doc:name="Transform Message" doc:id="21a8bf6d-b7c7-41a1-8c2b-3b297e924d4e">
+					<ee:message>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="vpmsValidCheck"><![CDATA[%dw 2.0
+output application/java
+---
+{
+    a:payload.ID_Page_BA_CAR_Insurance.validate == null,
+    b:sizeOf(payload.ID_Page_BA_CAR_Insurance.validate) == 1 ,
+    c:payload.ID_Page_BA_CAR_Insurance.validate[0] contains ('Flat Fees')
+}]]></ee:set-variable>
+						<ee:set-variable variableName="vpmsres" ><![CDATA[%dw 2.0
+output application/json
+---
+payload
+
+]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<async doc:name="Async" doc:id="cc8e8238-d4e6-4031-8808-a5cf56fb3ecf" >
+					<try doc:name="Try" doc:id="22e87859-c289-40d9-be4d-595030608858" >
+						<ee:transform doc:name="Transform Message" doc:id="daef62ca-be7b-47ba-88db-03a89e808e20">
+						<ee:message>
+						</ee:message>
+						<ee:variables>
+							<ee:set-variable variableName="pathVPMS"><![CDATA[%dw 2.0
+output application/json
+---
+{
+	req: 'D:/uca/Documents/Tameenk/VPMS/' ++ vars.monthDate.month ++ '/' ++ vars.monthDate.day ++ "/" ++ vars.setRequest.ReferenceId default '' ++ "_Request" ++ '.json',
+	res: 'D:/uca/Documents/Tameenk/VPMS/' ++ vars.monthDate.month ++ '/' ++ vars.monthDate.day ++ "/" ++ vars.setRequest.ReferenceId default '' ++ "_Response" ++ '.json',
+    server_ip: '10.2.11.197',
+    reqFile: vars.setRequest.ReferenceId default '' ++ "_Request",
+    resFile: vars.setRequest.ReferenceId default '' ++ "_Response"
+}]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+						<http:request method="POST" doc:name="VPMS Request" doc:id="03bcc7f5-7e4c-4624-80fb-73a161cbe732" url="${tameenk.fileurl1}/fileTest" target="req1">
+						<http:body><![CDATA[#[vars.requestVPMS]]]></http:body>
+						<http:query-params><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "VPMS" ++ '/' ++ vars.monthDate.month ++ '/' ++ vars.monthDate.day ,
+	"file" : vars.pathVPMS.reqFile,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+					</http:request>
+						<http:request method="POST" doc:name="VPMS res" doc:id="28136a6d-dc17-4836-b6d5-d0cf3ee59aa3" url="${tameenk.fileurl1}/fileTest" target="res1">
+						<http:body><![CDATA[#[vars.vpmsres]]]></http:body>
+						<http:query-params><![CDATA[#[output application/java
+---
+{
+	"serviceType" : "VPMS" ++ '/' ++ vars.monthDate.month ++ '/' ++ vars.monthDate.day ,
+	"file" : vars.pathVPMS.resFile,
+	"system" : "Tameenk"
+}]]]></http:query-params>
+					</http:request>
+						<ee:transform doc:name="Transform Message" doc:id="8e1e75ed-23d6-4bae-bf44-943b7837e682">
+						<ee:message>
+						</ee:message>
+						<ee:variables>
+							<ee:set-variable variableName="vpmsSQL"><![CDATA[%dw 2.0
+output application/java
+---
+"INSERT INTO [dbo].[MULE_tameenk_vpms_data]  (Reference_Id ,vpms_REQ ,vpms_RES ,created_on)
+     VALUES ('" ++ (vars.setRequest.ReferenceId default '') ++ "',
+            N'" ++ vars.pathVPMS.req ++ "', 
+            N'" ++ vars.pathVPMS.res ++ "',
+            '" ++ now() ++ "')"       ]]></ee:set-variable>
+						</ee:variables>
+					</ee:transform>
+						<db:insert doc:name="Insert" doc:id="22aa59be-bcd3-4482-a780-b4f33e2bf37d" config-ref="Database_Config">
+						<db:sql><![CDATA[#[vars.vpmsSQL]]]></db:sql>
+					</db:insert>
+						<error-handler>
+							<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="6ff4335c-d057-4061-b622-831d65ce2f50" >
+								<flow-ref doc:name="Flow Reference" doc:id="83e4e9cb-e7fa-46dd-914d-db618a08e784" name="global-prepare-error-response-sub-flowSub_Flow"/>
+							</on-error-continue>
+						</error-handler>
+					</try>
+				</async>
+				<flow-ref doc:name="Flow Reference" doc:id="da0555eb-420b-4682-b19b-18cdfba1c627" name="quotesCompFlowSub_Flow" />
+			</otherwise>
+		</choice>
+		<!--   <async doc:name="Async" doc:id="209fa3f2-c476-4cee-a946-852834a75bf7" >
+			<json-logger:logger doc:name="End" doc:id="40e93a36-a5bf-4be0-85be-57630ffdef15" config-ref="JSON_Logger_Config" message="Quotes Comp Ended" tracePoint="#[vars.jsonTrace]" priority="#[vars.jsonPriority]">
+			</json-logger:logger>
+		</async>-->
+	</flow>
+	<flow name="quotesCompFlowFlow" doc:id="229e1b99-4c2e-44da-8d92-5bfffc7fabeb" >
+		<scheduler doc:name="Scheduler" doc:id="3ee65026-b62e-4868-a2e7-838881735484" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="1058" startDelay="2" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<ee:transform doc:name="Transform Message" doc:id="7e6d487e-5492-40ed-b2f9-5b1c05d4252a">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="promoQuery"><![CDATA[%dw 2.0
+output application/java
+var todayDate=now() as Date as String
+//var comp_type= if(vars.setRequest.ProductTypeCode == 2) (if(vars.setRequest.VehicleAgencyRepair) 'Comprehensive - Agency' else 'Comprehensive - Non Agency')
+//else 'TPL'
+---
+{
+	toDate: todayDate,
+	fromDate: todayDate,
+	sob: p('tameenk.sob'),
+//	coverType: comp_type,
+	userType: p('tameenk.userType')
+}
+
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<db:select doc:name="promoCode_select" doc:id="d5111abd-d42e-4fba-a8b2-629b07db889a" config-ref="Database_Config" target="promoCode" targetValue="#[payload[0]]">
+			<db:sql><![CDATA[select pro.DISCOUNT_PERCENTAGE as dis, COVER_TYPE from dbo.CMN_PROMOCODE_DETAILS pro where valid_to > :toDate and valid_from < :fromDate
+and SOURCE_OF_BUSINESS like (select CONCAT('%',LOOKUP_CODE,'%') as code from dbo.CMN_LOOKUPS where LOOKUP_CATEGORY = 'Promo Code - Source of Business' and LABEL_ENGLISH like :sob)
+and USER_TYPE like (select CONCAT('%',LOOKUP_CODE,'%') as code from dbo.CMN_LOOKUPS where LOOKUP_CATEGORY = 'Promo Code - User Type' and LABEL_ENGLISH like :userType)
+and IS_ACTIVE='1'
+order by 1 desc]]></db:sql>
+			<db:input-parameters><![CDATA[#[vars.promoQuery]]]></db:input-parameters>
+		</db:select>
+		<db:select doc:name="coverType_Select" doc:id="9bba461a-9a4f-4fd1-acf8-7802391e7f2b" config-ref="Database_Config" target="coverType">
+			<db:sql ><![CDATA[select LOOKUP_CODE, LABEL_ENGLISH from dbo.CMN_LOOKUPS where LOOKUP_CATEGORY = 'Promo Code - Cover Type' and IS_ACTIVE='1']]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="e6eefbe5-bb53-4240-aa57-c2c75f832208" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="promovalue" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	promo: vars.promoCode default null,
+	cover: vars.coverType default null	
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<os:store doc:name="Store" doc:id="38c6b717-633e-4aed-a43b-cccf3097bf77" objectStore="Object_store_tameenk" key="promoCodeOS">
+			<os:value ><![CDATA[#[vars.promovalue]]]></os:value>
+		</os:store>
+		<db:select doc:name="Select" doc:id="9e5a6da5-497b-4b34-b0ae-42e710b6fe92" config-ref="Database_Config">
+			<db:sql ><![CDATA[select elm.elm_category, elm.ELM_CODE_trimmed as ELM_CODE, model.code as model, model.REFERENCE_code as make, '' as test from [CMN_ELM_MAPPING_DETAILS] elm, AGG_TAMEENK_LOOKUPS model where elm.elm_category ='Vehicle Model' and model.category ='Vehicle Model' and 
+elm.LOOKUP_CODE=model.UCA_CODE and elm.LOOKUP_REFERENCE_ID =model.REFERENCE_ID and elm.IS_ACTIVE=1 and model.IS_ACTIVE=1
+Union select make.elm_category, make.ELM_CODE_trimmed as ELM_CODE, '' as model, make1.code as make, '' as test from dbo.[CMN_ELM_MAPPING_DETAILS] make, dbo.AGG_TAMEENK_LOOKUPS make1 where make.IS_ACTIVE = 1 and make.elm_category ='Vehicle Make' and make.lookup_code = make1.UCA_CODE
+and make1.IS_ACTIVE = 1 and make1.category ='Vehicle Make'
+Union select addres.elm_category, addres.ELM_CODE_trimmed as ELM_CODE, city.code as model, '' as make, '' as test from dbo.[CMN_ELM_MAPPING_DETAILS] addres, dbo.AGG_TAMEENK_LOOKUPS city where addres.IS_ACTIVE = 1 and addres.elm_category ='ADDRESS_CITY' and addres.LOOKUP_CODE=
+city.uca_code and city.IS_ACTIVE = 1 and city.category ='City'
+Union SELECT CATEGORY as elm_category, uca_code as ELM_CODE , code as model, '' as make, '' as test FROM DBO.AGG_TAMEENK_LOOKUPS WHERE IS_ACTIVE = 1 and CATEGORY = 'Use Of Vehicle' ]]></db:sql>
+		</db:select>
+		<os:store doc:name="Store" doc:id="175a9b87-30a2-4659-8fca-eb3278f81628" key="vpmsDB" objectStore="Object_store_tameenk">
+			<os:value ><![CDATA[#[output application/json
+---
+payload]]]></os:value>
+		</os:store>
+		<db:select doc:name="Select" doc:id="cc32dbd1-bf49-4bfb-bf19-eda002ad2100" config-ref="Database_Config" target="CategoryType">
+			<db:sql ><![CDATA[SELECT CATEGORY, uca_code, code FROM [dbo].[AGG_TAMEENK_LOOKUPS] where IS_ACTIVE= 1 and CATEGORY 
+in('Cover Type','Insurer Id Type', 'Country', 'City', 'Vehicle Unique Type','Plate Type', 'Color', 'Vehicle Body', 'Driver License Type', 'Traffic Violations',
+'NCD Code Claims', 'Social status', 'Education', 'Occupation', 'Use Of Vehicle', 'Transmission', 'Mileages', 'Medical Conditions As DL',
+'Engine Size', 'Location Where Vehicle Is Kept Overnight', 'Vehicle Axle Weight','Driver Types','Driving Percentage','Vehicle Specifications')
+union 
+select CATEGORY, uca_code, LABEL_ARABIC as code from  [dbo].[AGG_TAMEENK_LOOKUPS] where IS_ACTIVE= 1 and CATEGORY ='Plate Character'
+]]></db:sql>
+		</db:select>
+		<os:store doc:name="Store" doc:id="9b615637-93db-4f7b-8d79-d262a421347b" key="CategoryType" objectStore="Object_store_tameenk">
+			<os:value ><![CDATA[#[output application/json
+---
+vars.CategoryType]]]></os:value>
+		</os:store>
+		<db:select doc:name="Select" doc:id="e72205a2-46f5-4bd8-b053-b7f26080c59c" config-ref="Database_Config">
+			<db:sql ><![CDATA[select code,LABEL_ARABIC,LABEL_ENGLISH,UCA_CODE from AGG_TAMEENK_LOOKUPS where CATEGORY like '%Additional Benefits%']]></db:sql>
+		</db:select>
+		<os:store doc:name="Store" doc:id="65a8c581-5506-4877-9be8-f6be59b00320" objectStore="Object_store_tameenk" key="benefitsResult">
+			<os:value ><![CDATA[#[output application/json
+---
+payload]]]></os:value>
+		</os:store>
+		<db:select doc:name="Select" doc:id="3902cc6e-ade3-42f4-af7e-994ce9db2384" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT max(poductid) as ELM_CODE FROM dbo.MULE_tameenk_Quotes_products]]></db:sql>
+		</db:select>
+		<os:store doc:name="Store" doc:id="7a409126-18ef-4297-9775-527cea25082a" objectStore="Object_store_tameenk" key="poductid">
+			<os:value ><![CDATA[#[output application/json
+---
+payload.ELM_CODE[0]]]]></os:value>
+		</os:store>
+	</flow>
+	<sub-flow name="quotesCompFlowSub_Flow1" doc:id="6910d520-668d-4d83-b1a3-1da07b3a9558" >
+		<os:retrieve doc:name="Retrieve" doc:id="0105edc9-6cf8-458b-8919-41b99ecf79b8" key="promoCodeOS" objectStore="Object_store_tameenk" target="promoCode">
+			<os:default-value ><![CDATA[#[null]]]></os:default-value>
+		</os:retrieve>
+		<os:retrieve doc:name="Retrieve" doc:id="c158a413-c4af-46de-b224-090a86a45275" key="benefitsResult" objectStore="Object_store_tameenk" target="benefitsResult">
+			<os:default-value ><![CDATA[#[[]]]]></os:default-value>
+		</os:retrieve>
+		<os:retrieve doc:name="Retrieve" doc:id="3c707bfe-7323-4be3-88c9-874ae0e74c7b" key="poductid" objectStore="Object_store_tameenk" target="poductid">
+			<os:default-value ><![CDATA[#[19107730]]]></os:default-value>
+		</os:retrieve>
+		<ee:transform doc:name="Transform Message" doc:id="95ef501a-13a0-4095-8ddd-52a86f1238a6" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="promoCode" ><![CDATA[%dw 2.0
+output application/java
+var comp_type= if(vars.setRequest.ProductTypeCode == 2) (if(vars.setRequest.VehicleAgencyRepair) 'Comprehensive - Agency' else 'Comprehensive - Non Agency')
+else 'TPL'
+var coverType= (vars.promoCode.cover filter($.LABEL_ENGLISH == comp_type)) [0].LOOKUP_CODE
+---
+if (vars.promoCode.promo != null)
+	if(vars.promoCode.promo.COVER_TYPE contains (coverType)) vars.promoCode.promo.dis else null
+else null]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<choice doc:name="Choice" doc:id="570cde97-ca7b-498b-8bd0-df55e8378d3a" >
+			<when expression="#[vars.setRequest.ProductTypeCode == 2]">
+				<ee:transform doc:name="Transform Message" doc:id="4dfe051c-b3bc-4423-a325-10b55cb9b0c4">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+import withMaxSize from dw::core::Strings
+output application/json skipNullOn="everywhere"
+var no= "2" ++ ((now() as Number ++ randomInt(99999)) withMaxSize 14)
+var comp_type= if(vars.setRequest.VehicleAgencyRepair) 'COM_AG' else 'COM_NA'
+var prod= payload.ID_Page_BA_CAR_Insurance.ID_Premiumcalculation.OutputTable.items
+var benefits= ["7120","7121","7126","7127","7128","7119","7118"]
+var benefitsData= payload.ID_Page_BA_CAR_Insurance.ID_Premiumcalculation.ID_BenefitTable.items
+fun benefitsRes()= vars.benefitsResult filter(benefits contains $.UCA_CODE) //Mule::lookup('benefitsResult', {id:benefits},50000)
+var promo= (vars.promoCode  as Number/100)  default 0
+fun price(x:Number, y:Number, z:Number) = ((x-y-z) * (if(promo != 0) promo else 1)) as Number as String {format: "0.00"} //((x-y-z) * (15/100)) as Number as String {format: "0.00"}
+fun product(x:Number, y:Number, z:Number) = (((x-y-z) * (1 - promo)) + vat(x,y,z)) as Number as String {format: "0.00"} //((x-y-z) * (1.15)) as Number as String {format: "0.00"}
+fun vat(x:Number, y:Number, z:Number) = ((x-y-z) * (1 - promo)) * (0.15)
+
+---
+{
+ "ReferenceId" : vars.setRequest.ReferenceId,//"C0595cdfda3df6d",
+ "StatusCode" : 1, //success status
+ "QuotationNo" : no, //vars.requestVPMS.ID_Page_BA_CAR_Insurance.ID_GlobalParameters.A_CM_QuoteID_STR.value, //"4324057",
+ "QuotationDate" : now() as String {format:"yyyy-MM-dd'T'HH:mm:ss+hh:mm"} ,//"2017-08-24T15:45:28+03:00", // current date
+ "QuotationExpiryDate" : ((now()) + |P3D|) as String {format:"yyyy-MM-dd'T'HH:mm:ss+hh:mm"},//"2017-08-25T15:45:28+03:00", TPL and compre  3days
+ "Products" : prod filter($.F_Output_Table_PolicyType_STR.value== comp_type) map (a, b)-> {
+	"ProductId" : ((now() as Number ++ randomInt(99999)) withMaxSize 15) ++ (b), //((vars.poductid as Number) + (b+1)) as String,
+	"ProductPrice" : product(a.F_Output_Table_UWGrossRate_REA.value, a.F_Output_Table_NCDDiscountAmt_REA.value, a.F_Output_Table_LoyaltyDiscountAmt_REA.value) as Number as String {format: "0.00"} as Number,
+	"ProductDescAr":if(comp_type == 'COM_NA') "شامل غير وكالة" else if(comp_type == 'COM_AG') "وكالة شاملة" else null,
+    "ProductDescEn": if(comp_type == 'COM_NA') "Comprehensive Non Agency" else if(comp_type == 'COM_AG') "Comprehensive Agency" else null,
+	"DeductibleValue" : a.F_Output_Table_Deductible_REA.value, //1000,
+	"VehicleLimitValue" : vars.setRequest.VehicleValue,//45000,
+	"PriceDetails" : [if(promo != 0)({PriceTypeCode: 1, PriceValue: price(a.F_Output_Table_UWGrossRate_REA.value, a.F_Output_Table_NCDDiscountAmt_REA.value, a.F_Output_Table_LoyaltyDiscountAmt_REA.value) as Number as String {format: "0.00"}, PercentageValue: (vars.promoCode as Number default 0) as String {format: "0.0"}}) else null,
+		{PriceTypeCode: 8, PriceValue: vat(a.F_Output_Table_UWGrossRate_REA.value, a.F_Output_Table_NCDDiscountAmt_REA.value, a.F_Output_Table_LoyaltyDiscountAmt_REA.value) as Number as String {format: "0.00"} 
+		, PercentageValue: 15.0},
+		{PriceTypeCode: 7, PriceValue: a.F_Output_Table_UWGrossRate_REA.value as Number as String {format: "0.00"}},
+		{PriceTypeCode: 3, PriceValue: a.F_Output_Table_LoyaltyDiscountAmt_REA.value as Number as String {format: "0.00"}, PercentageValue: 0.0},
+		{PriceTypeCode: 2, PriceValue: a.F_Output_Table_NCDDiscountAmt_REA.value as Number as String {format: "0.00"}, PercentageValue: (a.F_Output_Table_NCDDiscount_REA.value as Number default 0) as String {format: "0.0"}}],
+	"Benefits": benefitsRes() map (i, v) -> { 
+		"BenefitCode" : i.code, //1,  
+		"BenefitId" : ((now() as Number ++ randomInt(99999)) withMaxSize 15) ++ (v ++ b), //(trim(Mule::lookup('benefitsIdsStore', {valueCheck:(trim(Mule::lookup('benefitsIdsCheck', {valueCheck1:''}, 50000)) + 1)}, 50000))) , //"110", 
+		"BenefitNameAr" : i.LABEL_ARABIC, //"", 
+		"BenefitNameEn" : i.LABEL_ENGLISH, //"", 
+		"BenefitPrice" : (benefitsData map (if($.F_BA_CAR_BenefitTable_Key_STR.value == i.UCA_CODE)$.F_BA_CAR_BenefitTable_Premium_STR.value else null ) filter($ != null))[0] as Number as String {format: "0.0"}
+		}
+ 	}
+}
+]]></ee:set-payload>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="jsonTrace"><![CDATA[%dw 2.0
+output application/java
+---
+'END']]></ee:set-variable>
+						<ee:set-variable variableName="jsonPriority"><![CDATA[%dw 2.0
+output application/java
+---
+'INFO']]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="2bdcd5ae-3ac4-4a9d-9dd9-1b329e8b4ee7" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+import withMaxSize from dw::core::Strings
+output application/json skipNullOn="everywhere"
+var no= "2" ++ ((now() as Number ++ randomInt(99999)) withMaxSize 14)
+var prod= payload.ID_Page_BA_CAR_Insurance.ID_Premiumcalculation.OutputTable.items
+var benefits= ["7120","7121","7128"]
+var benefitsData= payload.ID_Page_BA_CAR_Insurance.ID_Premiumcalculation.ID_BenefitTable.items
+fun benefitsRes()= vars.benefitsResult filter(benefits contains $.UCA_CODE) //Mule::lookup('benefitsResult', {id:benefits},50000)
+var promo= (vars.promoCode  as Number/100)  default 0
+fun price(x:Number, y:Number, z:Number) = ((x-y-z) * (if(promo != 0) promo else 1)) as Number as String {format: "0.00"} //((x-y-z) * (15/100)) as Number as String {format: "0.00"}
+fun product(x:Number, y:Number, z:Number) = (((x-y-z) * (1 - promo)) + vat(x,y,z)) as Number as String {format: "0.00"} //((x-y-z) * (1.15)) as Number as String {format: "0.00"}
+fun vat(x:Number, y:Number, z:Number) = ((x-y-z) * (1 - promo)) * (0.15)
+
+---
+{
+ "ReferenceId" : vars.setRequest.ReferenceId,//"C0595cdfda3df6d",
+ "StatusCode" : 1, //success status
+ "QuotationNo" : no, //vars.requestVPMS.ID_Page_BA_CAR_Insurance.ID_GlobalParameters.A_CM_QuoteID_STR.value, //"4324057",
+ "QuotationDate" : now() as String {format:"yyyy-MM-dd'T'HH:mm:ss+hh:mm"} ,//"2017-08-24T15:45:28+03:00", // current date
+ "QuotationExpiryDate" : ((now()) + |P3D|) as String {format:"yyyy-MM-dd'T'HH:mm:ss+hh:mm"},//"2017-08-25T15:45:28+03:00", TPL and compre  3days
+ "Products" : prod filter($.F_Output_Table_PolicyType_STR.value== 'TPL') map (a, b)-> {
+	"ProductId" : ((now() as Number ++ randomInt(99999)) withMaxSize 15) ++ b, //((vars.poductid as Number) + (b+1)) as String,
+	//(trim(Mule::lookup('common-logicFlow', {typeDB:'proId'}, 50000)) + (b+1)) as String, //"864",
+	"ProductPrice" : product(a.F_Output_Table_UWGrossRate_REA.value, a.F_Output_Table_NCDDiscountAmt_REA.value, a.F_Output_Table_LoyaltyDiscountAmt_REA.value) as Number as String {format: "0.00"} as Number,
+	"ProductDescAr": "الطرف الثالث",
+    "ProductDescEn": "Third Party",
+	"PriceDetails" : [if(promo != 0)({PriceTypeCode: 1, PriceValue: price(a.F_Output_Table_UWGrossRate_REA.value, a.F_Output_Table_NCDDiscountAmt_REA.value, a.F_Output_Table_LoyaltyDiscountAmt_REA.value) as Number as String {format: "0.00"}, PercentageValue: (vars.promoCode as Number default 0) as String {format: "0.0"}}) else null,
+		{PriceTypeCode: 8, PriceValue: vat(a.F_Output_Table_UWGrossRate_REA.value, a.F_Output_Table_NCDDiscountAmt_REA.value, a.F_Output_Table_LoyaltyDiscountAmt_REA.value) as Number as String {format: "0.00"} //(price(a.F_Output_Table_UWGrossRate_REA.value, a.F_Output_Table_NCDDiscountAmt_REA.value, a.F_Output_Table_LoyaltyDiscountAmt_REA.value) - (price(a.F_Output_Table_UWGrossRate_REA.value, a.F_Output_Table_NCDDiscountAmt_REA.value, a.F_Output_Table_LoyaltyDiscountAmt_REA.value) * (10/100))) as Number as String {format: "0.00"}
+			, PercentageValue: 15.0},
+		{PriceTypeCode: 7, PriceValue: a.F_Output_Table_UWGrossRate_REA.value as Number as String {format: "0.00"}},
+		{PriceTypeCode: 3, PriceValue: a.F_Output_Table_LoyaltyDiscountAmt_REA.value as Number as String {format: "0.00"}, PercentageValue: 0.0},
+		{PriceTypeCode: 2, PriceValue: a.F_Output_Table_NCDDiscountAmt_REA.value as Number as String {format: "0.00"}, PercentageValue: (a.F_Output_Table_NCDDiscount_REA.value as Number default 0) as String {format: "0.0"}}],
+	"Benefits": benefitsRes() map (i, v) -> { 
+		"BenefitCode" : i.code, //1,
+		"BenefitId" : ((now() as Number ++ randomInt(99999)) withMaxSize 15) ++ (v ++ b), //(trim(Mule::lookup('benefitsIdsStore', {valueCheck:(trim(Mule::lookup('benefitsIdsCheck', {valueCheck1:''}, 50000)) + 1)}, 50000))) , //"110", 
+		"BenefitNameAr" : i.LABEL_ARABIC, //"", 
+		"BenefitNameEn" : i.LABEL_ENGLISH, //"", 
+		"BenefitPrice" : (benefitsData map (if($.F_BA_CAR_BenefitTable_Key_STR.value == i.UCA_CODE)$.F_BA_CAR_BenefitTable_Premium_STR.value else null ) filter($ != null))[0] as Number as String {format: "0.0"}
+		}
+ 	}
+}
+]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="jsonTrace" ><![CDATA[%dw 2.0
+output application/java
+---
+'END']]></ee:set-variable>
+						<ee:set-variable variableName="jsonPriority" ><![CDATA[%dw 2.0
+output application/java
+---
+'INFO']]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<async doc:name="Async" doc:id="14539c76-5eb0-4eb5-a8b9-788f54ad3566" >
+			<ee:transform doc:name="Transform Message" doc:id="52b6d90c-135a-4ba3-9c56-3bd58769ec7a" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json skipNullOn="everywhere" 
+
+fun success (ReferenceId:String, StatusCode: Number, QuotationNo: String, QuotationDate: String, QuotationExpiryDate: String)= 
+Mule::lookup('tameenk_Quotes', {dbType:"success", ReferenceId:ReferenceId, StatusCode:StatusCode, QuotationNo:QuotationNo, QuotationDate: QuotationDate, QuotationExpiryDate: QuotationExpiryDate},50000)
+fun product (QuotationNo: String, ProductId: Number, ProductPrice: String, ProductDescAr: String, ProductDescEn: String, DeductibleValue: Number, VehicleLimitValue: Number)= 
+Mule::lookup('tameenk_Quotes', {dbType:"product", QuotationNo:QuotationNo, ProductId: ProductId, ProductPrice: ProductPrice, ProductDescAr: ProductDescAr, ProductDescEn: ProductDescEn, DeductibleValue: DeductibleValue, VehicleLimitValue:VehicleLimitValue},50000)
+fun price (QuotationNo: String, ProductId: Number, PriceTypeCode: String, PriceValue: String, PercentageValue: String)= 
+Mule::lookup('tameenk_Quotes', {dbType:"price", QuotationNo:QuotationNo, ProductId: ProductId, PriceTypeCode: PriceTypeCode, PriceValue: PriceValue, PercentageValue: PercentageValue},50000)
+fun benefit (QuotationNo: String, ProductId: Number, BenefitCode: String, BenefitId: Number, BenefitNameAr: String, BenefitNameEn: String, BenefitPrice: String)= 
+Mule::lookup('tameenk_Quotes', {dbType:"benefit", QuotationNo:QuotationNo, ProductId: ProductId, BenefitCode: BenefitCode, BenefitId: BenefitId, BenefitNameAr: BenefitNameAr, BenefitNameEn: BenefitNameEn, BenefitPrice: BenefitPrice},50000)
+
+---
+{
+	success: success(payload.ReferenceId default "", payload.StatusCode default "", payload.QuotationNo default "",payload.QuotationDate default "",payload.QuotationExpiryDate default ""),
+	product: payload.Products map (i, v) -> { 
+		productId: product(payload.QuotationNo default "", i.ProductId default "", i.ProductPrice default "", i.ProductDescAr default "", i.ProductDescEn default "", i.DeductibleValue default 0, i.VehicleLimitValue default 0),
+	"PriceDetails" : i.PriceDetails map (j, k) -> {
+		price: price(payload.QuotationNo default "", i.ProductId default "", j.PriceTypeCode default "", j.PriceValue default "", j.PercentageValue default "")
+	},
+	"Benefits": i.Benefits map (x, y) -> {
+		benefits: benefit(payload.QuotationNo default "", i.ProductId default "", x.BenefitCode default "", x.BenefitId default "", x.BenefitNameAr default "", x.BenefitNameEn default "", x.BenefitPrice default "")
+		}
+ 	}
+}
+]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</async>
+		<os:store doc:name="Store" doc:id="dd184053-4728-4ac6-bfd3-77f1044e57af" key="poductid" objectStore="Object_store_tameenk">
+				<os:value><![CDATA[#[output application/json
+var si= sizeOf(payload.Products.ProductId)-1
+---
+payload.Products.ProductId[si]]]]></os:value>
+			</os:store>
+	</sub-flow>
+	<sub-flow name="quotesCompFlowSub_Flow" doc:id="c5470728-2994-43d6-9f68-15824078fa57" >
+		<choice doc:name="Choice" doc:id="2682ec76-2cd7-41bb-8c84-0b744244693c" >
+			<when expression="#[vars.vpmsValidCheck.a or (vars.vpmsValidCheck.b and vars.vpmsValidCheck.c)]">
+				<ee:transform doc:name="Transform Message" doc:id="6bcf5a42-5e9b-4dfb-9b04-59cf38ce40b0">
+					<ee:message>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="UWGrossRateCheck" ><![CDATA[%dw 2.0
+output application/json skipNullOn="everywhere"
+var comp_type= if(vars.setRequest.ProductTypeCode == 2)
+					if(vars.setRequest.VehicleAgencyRepair) 'COM_AG' else 'COM_NA'
+			   else 'TPL'
+---
+payload.ID_Page_BA_CAR_Insurance.ID_Premiumcalculation.OutputTable.items filter($.F_Output_Table_PolicyType_STR.value== comp_type) map (
+	if($.F_Output_Table_UWGrossRate_REA.value as Number == 0) true 
+	else null
+)]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<choice doc:name="Choice" doc:id="c08b865f-34c1-4af1-a60d-3f7138327644">
+					<when expression="#[sizeOf(vars.UWGrossRateCheck) == 0]">
+						<flow-ref doc:name="Flow Reference" doc:id="816a74c7-5638-4f7d-86f4-c1add8dfb1bf" name="quotesCompFlowSub_Flow1" />
+						<async doc:name="Async" doc:id="f733766d-0da5-428f-afab-9c8199ba889f">
+					<os:store doc:name="Store" doc:id="9717675f-456e-4115-a5d0-66bc1c24b30c" key="productKey" objectStore="Object_store_tameenk">
+					<os:value><![CDATA[#[payload.Products.ProductId[sizeOf(payload.Products.ProductId)-1]]]]></os:value>
+				</os:store>
+					<os:store doc:name="Store" doc:id="69a298e1-b207-4d62-8803-db259f6b69af" key="benefitKeyLatest" objectStore="Object_store_tameenk">
+						<os:value><![CDATA[#[%dw 2.0
+output application/java
+var bet= flatten (payload.Products.Benefits).BenefitId
+---
+bet[sizeOf(bet) -1]]]]></os:value>
+					</os:store>
+				</async>
+					</when>
+					<otherwise >
+						<ee:transform doc:name="Rate  Error Response" doc:id="cc839718-7d12-4a93-b420-4fb5324441eb" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+//fun field(field: String) = ((field splitBy(" "))[0] splitBy("/")) [sizeOf((field splitBy(" "))[0] splitBy("/"))-1]
+---
+{
+ "ReferenceId" : vars.setRequest.ReferenceId,
+ "StatusCode" : 2,
+ "Errors" : [{
+ 	Code: 604,
+ 	Message: "Not able to generate quote",
+ 	Field: ''
+ }]
+}
+]]></ee:set-payload>
+							</ee:message>
+							<ee:variables >
+								<ee:set-variable variableName="httpStatus" ><![CDATA[%dw 2.0
+output application/java
+---
+200]]></ee:set-variable>
+								<ee:set-variable variableName="jsonPriority" ><![CDATA[%dw 2.0
+output application/java
+---
+'ERROR']]></ee:set-variable>
+								<ee:set-variable variableName="jsonTrace" ><![CDATA[%dw 2.0
+output application/java
+---
+'EXCEPTION']]></ee:set-variable>
+							</ee:variables>
+						</ee:transform>
+						<async doc:name="Async" doc:id="267e2175-060a-455a-baea-45d46fae8d32" >
+							<flow-ref doc:name="Flow Reference" doc:id="90b3b390-28b8-46b9-8738-1a81eff25e36" name="quotesCompFlowSub_Flow2"/>
+						</async>
+					</otherwise>
+				</choice>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Validation Error Response" doc:id="3a5d1d63-ce39-4116-ad8e-e205f2a3e113">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+//fun field(field: String) = ((field splitBy(" "))[0] splitBy("/")) [sizeOf((field splitBy(" "))[0] splitBy("/"))-1]
+---
+{
+ "ReferenceId" : vars.setRequest.ReferenceId,
+ "StatusCode" : 2,
+ "Errors" : payload.ID_Page_BA_CAR_Insurance.validate map {
+ 	Code: 601,
+ 	Message: $,
+ 	Field: ''
+ }
+}
+]]></ee:set-payload>
+					</ee:message>
+					<ee:variables>
+						<ee:set-variable variableName="httpStatus"><![CDATA[%dw 2.0
+output application/java
+---
+400]]></ee:set-variable>
+						<ee:set-variable variableName="jsonPriority"><![CDATA[%dw 2.0
+output application/java
+---
+'ERROR']]></ee:set-variable>
+						<ee:set-variable variableName="jsonTrace"><![CDATA[%dw 2.0
+output application/java
+---
+'EXCEPTION']]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+				<async doc:name="Async" doc:id="5001bc97-2f73-4e83-a19e-5ef1dab1f338" >
+					<flow-ref doc:name="Flow Reference" doc:id="1edb6e66-7f53-4a34-bf44-7a7df618c990" name="quotesCompFlowSub_Flow2"/>
+				</async>
+			</otherwise>
+		</choice>
+	</sub-flow>
+	<sub-flow name="quotesCompFlowSub_Flow2" doc:id="1bf194bc-65f7-479f-b1bb-3376f2d5157e" >
+		<ee:transform doc:name="Transform Message" doc:id="75b66d88-9082-4114-ac62-f8add58c2a7f">
+						<ee:message>
+							<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+var code= payload.Errors.Code[0]
+var message= payload.Errors map ($.Message replace "'" with "''") joinBy ', '
+var Field= payload.Errors map($.Field) joinBy ', '
+---
+"INSERT INTO [dbo].[MULE_tameenk_Quotes_failed]
+	VALUES
+           ('" ++ payload.ReferenceId ++ "', '" ++ payload.StatusCode ++ "', '" ++ code ++ "', '" ++ message ++ "', '" ++ Field ++ "')"]]></ee:set-payload>
+						</ee:message>
+					</ee:transform>
+		<db:insert doc:name="Insert" doc:id="6dae70c0-296e-401b-9246-0e2e314750c4" config-ref="Database_Config">
+						<db:sql><![CDATA[#[payload]]]></db:sql>
+					</db:insert>
+	</sub-flow>
+	
+	</mule>

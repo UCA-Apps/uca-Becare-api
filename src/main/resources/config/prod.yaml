@@ -1,0 +1,36 @@
+
+muleApp:
+  environment: "prod"
+  apiAutoDiscoveryId: "17421409"
+  
+
+json:
+  logger.application.name : "uca-tameenk-api"
+  logger.application.version : "1.0"
+  maskFields: "password"
+
+ip: "10.2.11.190"
+  
+db:
+  host: "10.2.11.138"
+  user: "mulesoft"
+  password: "P@ssword@UCA_2020"   
+  dbname: "mule" 
+
+vpms:
+  url: "https://vpms.uca.com.sa/vpms.product/calculation/UCA_SA_CarInsurance_Retail/transient"
+  param: "choice,hasChoice,hidden_commit,id,editable,required,relevant,caption,description,addCaption,removeCaption,canAddGroup,canRemoveGroup"    
+      
+tameenk:
+  userType: "%Retail%"
+  sob: "%Tameenk%"
+  fileurl1: "https://uatmule.uca.com.sa"
+  fileurl: "http://10.2.11.197:8081"  
+
+email:
+  failure.notification: "Sbasha@UCA.COM.SA"    
+
+mongoDb:
+  conn: "mongodb://mulesoft:P%40ssword%40UCA_2020@10.2.15.83:27017/APILOGS"
+  
+  
